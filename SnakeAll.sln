@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{849A6946-E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake.Client", "src\Snake.Client\Snake.Client.csproj", "{1CAD0819-29C0-4E22-9252-80BD0DE23FB8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake.ApiTrackService", "src\Snake.ApiTrackService\Snake.ApiTrackService.csproj", "{637DC1A2-190A-4F5D-9ACA-962E2B76DB1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{1CAD0819-29C0-4E22-9252-80BD0DE23FB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CAD0819-29C0-4E22-9252-80BD0DE23FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CAD0819-29C0-4E22-9252-80BD0DE23FB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{637DC1A2-190A-4F5D-9ACA-962E2B76DB1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{637DC1A2-190A-4F5D-9ACA-962E2B76DB1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{637DC1A2-190A-4F5D-9ACA-962E2B76DB1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{637DC1A2-190A-4F5D-9ACA-962E2B76DB1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

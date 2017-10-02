@@ -15,6 +15,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake.Client", "src\Snake.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake.ApiTrackService", "src\Snake.ApiTrackService\Snake.ApiTrackService.csproj", "{637DC1A2-190A-4F5D-9ACA-962E2B76DB1B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7294A7DA-184B-428C-B46B-3FFADCCD6D0D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{802B7F87-DC20-4225-9C59-B0B4030AE315}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake.DemoApi", "test\Snake.DemoApi\Snake.DemoApi.csproj", "{2A66FBA7-CB22-4C4E-9D5C-B692E1B5AF1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,11 +50,20 @@ Global
 		{637DC1A2-190A-4F5D-9ACA-962E2B76DB1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{637DC1A2-190A-4F5D-9ACA-962E2B76DB1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{637DC1A2-190A-4F5D-9ACA-962E2B76DB1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A66FBA7-CB22-4C4E-9D5C-B692E1B5AF1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A66FBA7-CB22-4C4E-9D5C-B692E1B5AF1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A66FBA7-CB22-4C4E-9D5C-B692E1B5AF1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A66FBA7-CB22-4C4E-9D5C-B692E1B5AF1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{87172D67-9D91-4BCE-B63A-5B517ADF9B9E} = {7294A7DA-184B-428C-B46B-3FFADCCD6D0D}
+		{B1AF234A-5214-46DE-8753-16F10E6AF876} = {7294A7DA-184B-428C-B46B-3FFADCCD6D0D}
 		{871EE036-7122-4777-AA49-6B7540939B64} = {849A6946-EA2A-4853-BAC3-4B43049EE897}
+		{1CAD0819-29C0-4E22-9252-80BD0DE23FB8} = {7294A7DA-184B-428C-B46B-3FFADCCD6D0D}
+		{637DC1A2-190A-4F5D-9ACA-962E2B76DB1B} = {7294A7DA-184B-428C-B46B-3FFADCCD6D0D}
+		{2A66FBA7-CB22-4C4E-9D5C-B692E1B5AF1E} = {849A6946-EA2A-4853-BAC3-4B43049EE897}
 	EndGlobalSection
 EndGlobal

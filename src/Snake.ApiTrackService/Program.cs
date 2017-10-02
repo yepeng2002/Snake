@@ -10,6 +10,11 @@ namespace Snake.ApiTrackService
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Start SnakeServiceServer service...");
+            var server = new SnakeServiceServer();
+            server.Start();
+
+            Console.ReadLine();
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
+using Topshelf;
 
 namespace Snake.ApiTrackService
 {
@@ -10,11 +7,20 @@ namespace Snake.ApiTrackService
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Start SnakeServiceServer service...");
-            var server = new SnakeServiceServer();
-            server.Start();
+            Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory);
 
-            Console.ReadLine();
+            HostFactory.Run(x =>
+            {
+                x.RunAsLocalSystem();
+                x.SetDescription(SnakeServiceConfiguration.ServiceDescription);
+                x.SetDisplayName(SnakeServiceConfiguration.ServiceDisplayName);
+                x.SetServiceName(SnakeServiceConfiguration.ServiceName);
+                x.Service(factory =>
+                {
+                    var server = new SnakeServiceServer();
+                    return server;
+                });
+            });
         }
     }
 }

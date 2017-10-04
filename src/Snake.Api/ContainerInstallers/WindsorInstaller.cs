@@ -3,6 +3,7 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using MassTransit;
 using Snake.Api.ServiceBus;
+using Snake.Api.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,9 @@ namespace Snake.Api.ContainerInstallers
                 Component.For<IBus, IBusControl>()
                     .Instance(TrackLogBusConfiguration.BusInstance)
                     .LifestyleSingleton());
+
+            container.Register(
+                Classes.FromThisAssembly().BasedOn<BaseService>().WithServiceSelf().LifestyleTransient());
         }
     }
 }

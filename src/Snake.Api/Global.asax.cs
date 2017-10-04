@@ -13,15 +13,7 @@ namespace Snake.Api
     public class WebApiApplication : System.Web.HttpApplication
     {
         private IBusControl _bus;
-
-        private void RegisterBus()
-        {
-            ApplicationBootstrapper.Container.Register(
-                Component.For<IBus, IBusControl>()
-                    .Instance(TrackLogBusConfiguration.BusInstance)
-                    .LifestyleSingleton());
-        }
-
+        
         protected void Application_Start()
         {
             //************************** Default *************************
@@ -30,11 +22,10 @@ namespace Snake.Api
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            //*************************************************************
+            //************************************************************
 
-            //************************** bus ******************************
+            //********************** Ioc & Servicebus ********************
             var container = ApplicationBootstrapper.RegisterContainer();
-            RegisterBus();
             _bus = container.Resolve<IBusControl>();
             _bus.Start();
         }

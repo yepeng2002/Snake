@@ -18,7 +18,7 @@ namespace Snake.ApiTrackService.Consumers
                     TrackLogCreatedEvent trackLogCreatedEvent = new TrackLogCreatedEvent();
                     var obj = repository.Add(context.Message);
                 }
-                Console.WriteLine($"Recevied By Consumer:{context.Message.MachinName}");
+                Console.WriteLine($"Recevied By Consumer:{context.Message.GUID}");
             });
         }
     }

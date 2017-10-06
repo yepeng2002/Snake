@@ -92,12 +92,15 @@
     <Compile Include="Common\Singleton.cs" />
     <Compile Include="Configurations\BusConfiguration.cs" />
     <Compile Include="Configurations\RabbitMQConfiguration.cs" />
+    <Compile Include="Enums\ServiceResultCode.cs" />
     <Compile Include="Events\BaseEvent.cs" />
     <Compile Include="Events\TrackLogCreatedEvent.cs" />
     <Compile Include="IMessage\ICommand.cs" />
     <Compile Include="IMessage\IEvent.cs" />
     <Compile Include="IMessage\IMessage.cs" />
     <Compile Include="Ioc\IocContainer.cs" />
+    <Compile Include="Models\TrackLog.cs" />
+    <Compile Include="Models\TransData.cs" />
     <Compile Include="Mongo\CollectionNameAttribute.cs" />
     <Compile Include="Mongo\Entity.cs" />
     <Compile Include="Mongo\IEntity.cs" />
@@ -108,13 +111,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\DateHelper.cs" />
     <Compile Include="Util\EncryptHelper.cs" />
+    <Compile Include="Util\JsonHelper.cs" />
     <Compile Include="Util\MapperProvider.cs" />
     <Compile Include="Util\StringHelper.cs" />
     <Compile Include="Util\TimestampHelper.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

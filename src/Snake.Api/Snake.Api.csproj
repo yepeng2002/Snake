@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Snake.Api.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -218,13 +219,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\EmBasicAuthorizeAttribute.cs" />
     <Compile Include="Controllers\TrackLogController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Enums\ServiceResultCode.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\TrackLog.cs" />
-    <Compile Include="Models\TransData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceBus\TrackLogBusConfiguration.cs" />
     <Compile Include="Services\BaseService.cs" />
@@ -300,6 +297,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -9,16 +9,19 @@ namespace Snake.Api.Controllers
 {
     public class BaseApiController : ApiController
     {
+        [NonAction]
         public object GetService(string servicename)
         {
             return IocContainer.GetService(servicename);
         }
 
+        [NonAction]
         public object GetService(Type t)
         {
             return IocContainer.GetService(t);
         }
 
+        [NonAction]
         public T GetService<T>()
         {
             return IocContainer.GetService<T>();

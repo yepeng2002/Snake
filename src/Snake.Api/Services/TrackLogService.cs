@@ -1,11 +1,7 @@
 ﻿using MassTransit;
-using Snake.Api.Models;
 using Snake.Core.Events;
+using Snake.Core.Models;
 using Snake.Core.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Snake.Api.Services
 {

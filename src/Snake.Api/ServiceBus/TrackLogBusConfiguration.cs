@@ -38,6 +38,7 @@ namespace Snake.Api.ServiceBus
                         cb.TripThreshold = 15;
                         cb.ActiveThreshold = 10;
                     });
+                    host.GetSendAddress(QueueName);
                 };
             }
         }        

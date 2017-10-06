@@ -40,6 +40,7 @@ namespace Snake.ApiTrackService
                         //e.AutoDelete = false;
                         //e.Durable = true;
                         //e.ExchangeType = "fanout";
+                        //e.UseConcurrencyLimit(RabbitMQConfiguration.ConsumerNum);
                         e.UseMessageScope();
                         //1. register consumers by manually
                         //e.Consumer<TrackLogCreatedEventConsumer>();

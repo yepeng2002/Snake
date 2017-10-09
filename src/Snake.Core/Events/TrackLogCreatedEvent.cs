@@ -24,6 +24,7 @@ namespace Snake.Core.Events
 
         public string FromApplication { get; set; }
         public string FromMachine { get; set; }
+        public string RequestId { get; set; }
         public DateTime RequestTime { get; set; }
         public string Url { get; set; }
         public string ControllerName { get; set; }

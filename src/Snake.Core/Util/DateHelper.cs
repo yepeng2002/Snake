@@ -308,13 +308,13 @@ namespace Snake.Core.Util
 
         public static DateTime UnixStampToDateTme(long stamp)
         {
-            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1, 0, 0, 0, 0));
             return startTime.AddMilliseconds(stamp);
         }
 
         public static long DateTimeToUnixStamp(DateTime now)
         {
-            TimeSpan ts = now - TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            TimeSpan ts = now - TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1, 0, 0, 0, 0));
             return Convert.ToInt64(ts.TotalMilliseconds);
         }
 

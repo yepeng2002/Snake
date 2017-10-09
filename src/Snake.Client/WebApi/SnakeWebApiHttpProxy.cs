@@ -196,6 +196,7 @@ namespace Snake.Client.WebApi
             Dictionary<string, object> paramDic = new Dictionary<string, object>();
             paramDic.Add("FromApplication", trackLog.FromApplication);
             paramDic.Add("FromMachine", trackLog.FromMachine);
+            paramDic.Add("RequestId", trackLog.RequestId);
             paramDic.Add("RequestTime", trackLog.RequestTime);
             paramDic.Add("Url", trackLog.Url);
             paramDic.Add("ControllerName", trackLog.ControllerName);

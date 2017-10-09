@@ -13,6 +13,7 @@ namespace Snake.Client.Filters
     {
         private const string Key = "__action_duration__";
         private const string RequestTimeKey = "__action_request__";
+        private const string RequestKey = "__action_requestid__";
 
         /// <summary>
         /// 启用计时器
@@ -23,6 +24,8 @@ namespace Snake.Client.Filters
         {
             var requestTime = DateTime.Now;
             actionContext.Request.Properties[RequestTimeKey] = DateHelper.DateTimeToUnixStamp(requestTime);
+            string requestId = Guid.NewGuid().ToString();
+            actionContext.Request.Properties[RequestKey] = requestId;
             var stopWatch = new Stopwatch();
             actionContext.Request.Properties[Key] = stopWatch;
             stopWatch.Start();
@@ -32,6 +35,7 @@ namespace Snake.Client.Filters
                 SnakeWebApiHttpProxy snakeWebApiHttpProxy = new SnakeWebApiHttpProxy();
                 snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLog()
                 {
+                    RequestId = requestId,
                     RequestTime = requestTime,
                     Url = actionContext.RequestContext.Url.Request.RequestUri.OriginalString,
                     ControllerName = actionContext.ControllerContext.ControllerDescriptor.ControllerName,
@@ -48,6 +52,7 @@ namespace Snake.Client.Filters
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
             DateTime requestTime = DateHelper.UnixStampToDateTme(Convert.ToInt64(actionExecutedContext.Request.Properties[RequestTimeKey]));
+            string requestId = actionExecutedContext.Request.Properties[RequestKey].ToString();
             var stopWatch = actionExecutedContext.Request.Properties[Key] as Stopwatch;
             if (stopWatch != null)
             {
@@ -62,6 +67,7 @@ namespace Snake.Client.Filters
                     SnakeWebApiHttpProxy snakeWebApiHttpProxy = new SnakeWebApiHttpProxy();
                     snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLog()
                     {
+                        RequestId = requestId,
                         RequestTime = requestTime,
                         Url = actionExecutedContext.Request.RequestUri.OriginalString,
                         ControllerName = controllerName,

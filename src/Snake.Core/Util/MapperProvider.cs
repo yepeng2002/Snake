@@ -6,17 +6,15 @@ namespace Snake.Core.Util
 {
     public static class MapperProvider
     {
-
         /// <summary>
         ///  类型映射
         /// </summary>
         public static T MapTo<T>(this object obj)
         {
             if (obj == null) return default(T);
-            Mapper.Map(obj.GetType(), typeof(T));
+            Mapper.CreateMap(obj.GetType(), typeof(T));
             return Mapper.Map<T>(obj);
         }
-
 
         /// <summary>
         /// 集合列表类型映射

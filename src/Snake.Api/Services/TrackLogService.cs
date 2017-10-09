@@ -11,7 +11,7 @@ namespace Snake.Api.Services
 
         public TrackLogService()
         {
-            _bus = GetService<IBusControl>();
+            _bus = GetService<IBus>();
         }
 
         public void CreateTrackLog(TrackLog trackLog)

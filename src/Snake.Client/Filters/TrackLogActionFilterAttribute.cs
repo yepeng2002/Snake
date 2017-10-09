@@ -1,9 +1,9 @@
 ﻿using Snake.Client.WebApi;
-using Snake.Core.Enums;
 using Snake.Core.Models;
+using Snake.Core.Util;
+using System;
 using System.Diagnostics;
 using System.Threading;
-using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
@@ -12,6 +12,7 @@ namespace Snake.Client.Filters
     public class TrackLogActionFilterAttribute : ActionFilterAttribute
     {
         private const string Key = "__action_duration__";
+        private const string RequestTimeKey = "__action_request__";
 
         /// <summary>
         /// 启用计时器
@@ -20,12 +21,23 @@ namespace Snake.Client.Filters
         /// <returns></returns>
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
+            var requestTime = DateTime.Now;
+            actionContext.Request.Properties[RequestTimeKey] = DateHelper.DateTimeToUnixStamp(requestTime);
             var stopWatch = new Stopwatch();
             actionContext.Request.Properties[Key] = stopWatch;
             stopWatch.Start();
 
-            SnakeWebApiHttpProxy snakeWebApiHttpProxy = new SnakeWebApiHttpProxy();
-            snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLog());
+            ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
+            {
+                SnakeWebApiHttpProxy snakeWebApiHttpProxy = new SnakeWebApiHttpProxy();
+                snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLog()
+                {
+                    RequestTime = requestTime,
+                    Url = actionContext.RequestContext.Url.Request.RequestUri.OriginalString,
+                    ControllerName = actionContext.ControllerContext.ControllerDescriptor.ControllerName,
+                    ActionName = actionContext.ActionDescriptor.ActionName
+                });
+            }));
         }
 
         /// <summary>
@@ -35,6 +47,7 @@ namespace Snake.Client.Filters
         /// <returns></returns>
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
+            DateTime requestTime = DateHelper.UnixStampToDateTme(Convert.ToInt64(actionExecutedContext.Request.Properties[RequestTimeKey]));
             var stopWatch = actionExecutedContext.Request.Properties[Key] as Stopwatch;
             if (stopWatch != null)
             {
@@ -43,8 +56,19 @@ namespace Snake.Client.Filters
                 var controllerName = actionExecutedContext.ActionContext.ActionDescriptor.ControllerDescriptor.ControllerName;
                 string log = string.Format("Thread:{0}  {1}.{2}   Take {3} ms.", Thread.CurrentThread.ManagedThreadId, controllerName, actionName, stopWatch.Elapsed.TotalMilliseconds.ToString("0."));
                 Trace.WriteLine(log);
-                SnakeWebApiHttpProxy snakeWebApiHttpProxy = new SnakeWebApiHttpProxy();
-                snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLog());
+
+                ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
+                {
+                    SnakeWebApiHttpProxy snakeWebApiHttpProxy = new SnakeWebApiHttpProxy();
+                    snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLog()
+                    {
+                        RequestTime = requestTime,
+                        Url = actionExecutedContext.Request.RequestUri.OriginalString,
+                        ControllerName = controllerName,
+                        ActionName = actionExecutedContext.ActionContext.ActionDescriptor.ActionName,
+                        ExecutedTime = stopWatch.Elapsed.TotalMilliseconds
+                    });
+                }));
             }
         }        
     }

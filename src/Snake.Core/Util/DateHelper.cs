@@ -306,10 +306,16 @@ namespace Snake.Core.Util
             return Convert.ToInt64(DateTime.Now.ToLongTimeString());
         }
 
-        public static Int64 UnixStamp()
+        public static DateTime UnixStampToDateTme(long stamp)
         {
-            TimeSpan ts = DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-            return Convert.ToInt64(ts.TotalSeconds);
+            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            return startTime.AddMilliseconds(stamp);
+        }
+
+        public static long DateTimeToUnixStamp(DateTime now)
+        {
+            TimeSpan ts = now - TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            return Convert.ToInt64(ts.TotalMilliseconds);
         }
 
         public static Int64 DateTimeStampToInt64()

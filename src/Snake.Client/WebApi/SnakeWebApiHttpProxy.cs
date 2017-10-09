@@ -15,7 +15,7 @@ namespace Snake.Client.WebApi
         const string EM_FLASKAPI_KEY = "EmFlaskApi";
         const string EM_FLASKAPI_SECRET = "EmFlaskApiSecret";
         const string EM_FLASKAPI = "EmFlaskServerApi";
-        const string SNAKE_WEBAPI = "ServiceLinkFlag";
+        //const string SNAKE_WEBAPI = "ServiceLinkFlag";
         const string SNAKE_WEBAPI_TRIDENT_CONTROLLER = "api/TrackLog";
 
         #endregion
@@ -183,7 +183,7 @@ namespace Snake.Client.WebApi
         }
         #endregion
 
-        #region EMWEBAPI服务调用代理方法
+        #region SNAKEWEBAPI服务调用代理方法
 
         /// <summary>
         /// 
@@ -194,7 +194,13 @@ namespace Snake.Client.WebApi
         public Tuple<bool, T> PublishTrackLog<T>(TrackLog trackLog)
         {
             Dictionary<string, object> paramDic = new Dictionary<string, object>();
-            paramDic.Add("trackLog", trackLog);
+            paramDic.Add("FromApplication", trackLog.FromApplication);
+            paramDic.Add("FromMachine", trackLog.FromMachine);
+            paramDic.Add("RequestTime", trackLog.RequestTime);
+            paramDic.Add("Url", trackLog.Url);
+            paramDic.Add("ControllerName", trackLog.ControllerName);
+            paramDic.Add("ActionName", trackLog.ActionName);
+            paramDic.Add("ExecutedTime", trackLog.ExecutedTime);
             var action = "PublishTrackLog";
             return DoPost<T>(SNAKE_WEBAPI_TRIDENT_CONTROLLER, action, paramDic);
         }

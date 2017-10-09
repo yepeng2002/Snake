@@ -12,7 +12,7 @@ namespace Snake.Api.Controllers
         [Route("PublishTrackLog")]
         [HttpPost]
         [EmBasicAuthorize]
-        public TransData<string> PublishTrackLog(TrackLog trackLog)
+        public TransData<string> PublishTrackLog([FromBody]TrackLog trackLog)
         {
             var result = new TransData<string>();
             if (trackLog == null)

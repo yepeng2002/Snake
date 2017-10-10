@@ -86,7 +86,6 @@
     <Compile Include="WebApi\HttpAsyncResult.cs" />
     <Compile Include="WebApi\HttpBaseProxy.cs" />
     <Compile Include="WebApi\HttpRequestResult.cs" />
-    <Compile Include="WebApi\Models\FootballTrainDto.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

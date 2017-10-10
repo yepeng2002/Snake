@@ -11,11 +11,11 @@ using System.Net.Http;
 
 namespace Snake.Api.Controllers
 {
-    public class EmBasicAuthorizeAttribute : AuthorizeAttribute
+    public class SnakeBasicAuthorizeAttribute : AuthorizeAttribute
     {
-        const string EnableSignAuthorize_KEY = "EmEnableSignAuthorize";
-        const string EM_API_KEY = "EM_API";
-        const string EM_API_SECRET_KEY = "EM_API_SECRET";
+        const string EnableSignAuthorize_KEY = "SnakeEnableSignAuthorize";
+        const string SNAKE_API_KEY = "SNAKE_API";
+        const string SNAKE_API_SECRET_KEY = "SNAKE_API_SECRET";
 
         const string AuthorizeTimeSpanKey = "AuthorizeTimeSpan";
         const string TimeSpanKey = "timespan";
@@ -62,9 +62,8 @@ namespace Snake.Api.Controllers
                 url = System.Web.HttpUtility.UrlDecode(url);
                 string sign = string.Empty;
 
-                var hzKey = ConfigurationManager.AppSettings[EM_API_KEY];
-                var hzSecret = ConfigurationManager.AppSettings[EM_API_SECRET_KEY];
-                //url需要全部转成小写，前端是大写，API端获取到的url是小写，大小写不一致导致加密后不匹配
+                var hzKey = ConfigurationManager.AppSettings[SNAKE_API_KEY];
+                var hzSecret = ConfigurationManager.AppSettings[SNAKE_API_SECRET_KEY];
                 //url需要全部转成小写，前端是大写，API端获取到的url是小写，大小写不一致导致加密后不匹配                
                 sign = EncryptHelper.MD5Encrypt(url.ToLower() + "|" + hzSecret);
 

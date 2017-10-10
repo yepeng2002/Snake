@@ -115,6 +115,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\DateHelper.cs" />
     <Compile Include="Util\EncryptHelper.cs" />
+    <Compile Include="Util\EntityExtension.cs" />
     <Compile Include="Util\JsonHelper.cs" />
     <Compile Include="Util\MapperProvider.cs" />
     <Compile Include="Util\StringHelper.cs" />

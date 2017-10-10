@@ -10,6 +10,8 @@ namespace Snake.Core.Models
     {
         string FromApplication { get; set; }
         string FromMachine { get; set; }
+        string AbsolutePath { get; set; }
+        int Port { get; set; }
         string RequestId { get; set; }
         DateTime RequestTime { get; set; }
         string Url { get; set; }

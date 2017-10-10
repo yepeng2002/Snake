@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
+using Snake.Core.Util;
 
 namespace Snake.Client.WebApi
 {
@@ -12,11 +13,10 @@ namespace Snake.Client.WebApi
     {
         #region 1. 自定义常量
 
-        const string EM_FLASKAPI_KEY = "EmFlaskApi";
-        const string EM_FLASKAPI_SECRET = "EmFlaskApiSecret";
-        const string EM_FLASKAPI = "EmFlaskServerApi";
-        //const string SNAKE_WEBAPI = "ServiceLinkFlag";
-        const string SNAKE_WEBAPI_TRIDENT_CONTROLLER = "api/TrackLog";
+        const string SNAKE_API_KEY = "SnakeApi";
+        const string SNAKE_API_SECRET = "SnakeApiSecret";
+        const string SNAKE_FLASKAPI = "SnakeServerApi";
+        const string SNAKE_WEBAPI_TRACKLOG_CONTROLLER = "api/TrackLog";
 
         #endregion
 
@@ -27,14 +27,14 @@ namespace Snake.Client.WebApi
         public SnakeWebApiHttpProxy()
         {
             //用于发送get请求到EMFLASKAPI
-            _emFlaskApiKey = ConfigurationManager.AppSettings[EM_FLASKAPI_KEY];
-            _emFlaskApiSercret = ConfigurationManager.AppSettings[EM_FLASKAPI_SECRET];
-            _baseUrl = ConfigurationManager.AppSettings[EM_FLASKAPI];
+            _emFlaskApiKey = ConfigurationManager.AppSettings[SNAKE_API_KEY];
+            _emFlaskApiSercret = ConfigurationManager.AppSettings[SNAKE_API_SECRET];
+            _baseUrl = ConfigurationManager.AppSettings[SNAKE_FLASKAPI];
         }
 
         #endregion
 
-        #region 3. 包装EMFLASKAPI业务的http请求
+        #region 3. 包装Snake.Api业务的http请求
         private Tuple<bool, T> DoPost<T>(string controller, string action, Dictionary<string, object> paramDic)
         {
             bool success = false;
@@ -45,7 +45,7 @@ namespace Snake.Client.WebApi
                 HttpRequestResult httpRequestResult = PostRequest(controller, action, paramDic);
                 if (httpRequestResult.Code == 200 && httpRequestResult.Data != null)
                 {
-                    var dataModel = JsonHelper.DeserializeObject<EmApiResponse<T>>(httpRequestResult.Data);
+                    var dataModel = JsonHelper.DeserializeObject<SnakeApiResponse<T>>(httpRequestResult.Data);
                     if (dataModel.Code == 1)//操作成功
                     {
                         success = true;
@@ -75,7 +75,7 @@ namespace Snake.Client.WebApi
                     T dataResult = default(T);
                     if (httpRequestResult.Code == 200 && httpRequestResult.Data != null)
                     {
-                        var dataModel = JsonHelper.DeserializeObject<EmApiResponse<T>>(httpRequestResult.Data);
+                        var dataModel = JsonHelper.DeserializeObject<SnakeApiResponse<T>>(httpRequestResult.Data);
                         if (dataModel.Code == 1)//操作成功
                         {
                             isLogicSuccess = true;
@@ -105,7 +105,7 @@ namespace Snake.Client.WebApi
                 HttpRequestResult httpRequestResult = GetRequest(controller, action);
                 if (httpRequestResult.Code == 200 && httpRequestResult.Data != null)
                 {
-                    var dataModel = JsonHelper.DeserializeObject<EmApiResponse<T>>(httpRequestResult.Data);
+                    var dataModel = JsonHelper.DeserializeObject<SnakeApiResponse<T>>(httpRequestResult.Data);
                     if (dataModel.Code == 1)//操作成功
                     {
                         success = true;
@@ -193,24 +193,16 @@ namespace Snake.Client.WebApi
         /// <returns></returns>
         public Tuple<bool, T> PublishTrackLog<T>(TrackLog trackLog)
         {
-            Dictionary<string, object> paramDic = new Dictionary<string, object>();
-            paramDic.Add("FromApplication", trackLog.FromApplication);
-            paramDic.Add("FromMachine", trackLog.FromMachine);
-            paramDic.Add("RequestId", trackLog.RequestId);
-            paramDic.Add("RequestTime", trackLog.RequestTime);
-            paramDic.Add("Url", trackLog.Url);
-            paramDic.Add("ControllerName", trackLog.ControllerName);
-            paramDic.Add("ActionName", trackLog.ActionName);
-            paramDic.Add("ExecutedTime", trackLog.ExecutedTime);
+            Dictionary<string, object> paramDic = trackLog.ToDictionary();
             var action = "PublishTrackLog";
-            return DoPost<T>(SNAKE_WEBAPI_TRIDENT_CONTROLLER, action, paramDic);
+            return DoPost<T>(SNAKE_WEBAPI_TRACKLOG_CONTROLLER, action, paramDic);
         }
 
         #endregion
     }
 
 
-    public class EmApiResponse<T>
+    public class SnakeApiResponse<T>
     {
         public int Code { get; set; }
 

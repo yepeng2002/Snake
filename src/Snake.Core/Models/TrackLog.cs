@@ -18,6 +18,8 @@ namespace Snake.Core.Models
 
         public string FromApplication { get; set; }
         public string FromMachine { get; set; }
+        public string AbsolutePath { get; set; }
+        public int Port { get; set; }
         public string RequestId { get; set; }
         public DateTime RequestTime { get; set; }
         public string Url { get; set; }

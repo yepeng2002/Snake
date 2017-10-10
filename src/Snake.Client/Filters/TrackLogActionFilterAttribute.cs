@@ -35,6 +35,8 @@ namespace Snake.Client.Filters
                 SnakeWebApiHttpProxy snakeWebApiHttpProxy = new SnakeWebApiHttpProxy();
                 snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLog()
                 {
+                    AbsolutePath = actionContext.Request.RequestUri.AbsolutePath,
+                    Port = actionContext.Request.RequestUri.Port,
                     RequestId = requestId,
                     RequestTime = requestTime,
                     Url = actionContext.RequestContext.Url.Request.RequestUri.OriginalString,
@@ -67,6 +69,8 @@ namespace Snake.Client.Filters
                     SnakeWebApiHttpProxy snakeWebApiHttpProxy = new SnakeWebApiHttpProxy();
                     snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLog()
                     {
+                        AbsolutePath = actionExecutedContext.Request.RequestUri.AbsolutePath,
+                        Port = actionExecutedContext.Request.RequestUri.Port,
                         RequestId = requestId,
                         RequestTime = requestTime,
                         Url = actionExecutedContext.Request.RequestUri.OriginalString,

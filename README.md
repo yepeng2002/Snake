@@ -63,6 +63,24 @@
   * 执行start.bat批处理脚本，安装或更新windows服务  
 3. 安装RabbitMQ，根据上述1和2的配置设置用户密码和VirtualHost  
 4. 安装Mongodb，根据上述2的配置设置用户密码和数据库  
+5. 在需要监控的webapi项目中增加配置：  
+  * 在App_Start下WebApiConfig.cs文件中增加一行代码如下：  
+  ```
+	public static void Register(HttpConfiguration config)
+	{
+		// Web API 配置和服务            
+		config.Filters.Add(new TrackLogActionFilterAttribute());  //api执行事件跟踪日志
+  ```
+  * 在web.config配置中增加配置如下：  
+```
+	<appSettings>
+		<!--SnakeApi服务 验签-->
+		<add key="SnakeApi" value="SNAKE_API" />
+		<add key="SnakeApiSecret" value="1!2@3#4$5" />
+		<!--Snake.Api服务 接口地址-->
+		<add key="SnakeServerApi" value="http://localhost:50424" />
+	</appSettings>
+```
 
 ### Copyright and license
 

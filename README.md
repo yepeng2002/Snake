@@ -8,7 +8,7 @@
   Snake是基于C#开发的实时api监控平台，包括api压力监控和调用异常监控。  
   是基于RESTFul api风格开发的.net web api微服务应用集群，实时的接口调用监控为系统开发者提供了有利的分析数据。  
   Snake是为此而生的安静而平顺监控系统，它通过Filter实现监控嵌入，异步发送监控日志消息，通过基于RabbitMQ  
-  实现的企业服务总线平顺处理消息，最终将监控日志数据输入存储到Mongodb中。
+  实现的企业服务总线平顺处理消息，最终将监控日志数据输入存储到Mongodb中。  
 
 ### Requirements
 
@@ -20,8 +20,22 @@
   
 ### Quick Started
 
-1. 编译并发布Snake.Api到IIS站点  
-2. 编译Snake.ApiTrackService项目，修改配置文件App.config配置项，如下：
+1. Snake.Api项目是webapi项目，编译并发布Snake.Api到IIS站点，修改配置文件web.config，如下：
+```
+	<!--************************* RabbitMQ Connection Settings ****************** -->
+	<RabbitMQ.Connection>
+		<add key="RabbitMQ.HostName" value="localhost" />
+		<add key="RabbitMQ.Port" value="5672" />
+		<add key="RabbitMQ.UserName" value="snake" />
+		<add key="RabbitMQ.Password" value="snake" />
+		<add key="RabbitMQ.VirtualHost" value="snakeTest" />
+		<add key="RabbitMQ.QueueName" value="q_snake_apitrack" />
+		<!--重试次数-->
+		<add key="RabbitMQ.UseRetryNum" value="3" />
+	</RabbitMQ.Connection>
+```
+2. Snake.ApiTrackService项目是windows服务，编译Snake.ApiTrackService项目
+  * 修改配置文件App.config配置项，如下：
 ```
 	<appSettings>
 		<add key="MongoConnectionString" value="mongodb://snake:snake@localhost:27017/SnakeDbTest/?MaximumPoolSize=500;socketTimeoutMS=2000;MinimumPoolSize=1;waitQueueTimeoutMS=300;waitQueueMultiple=10;ConnectionLifetime=30000;ConnectTimeout=30000;Pooled=true" />
@@ -46,6 +60,10 @@
 		<add key="RabbitMQ.UseRetryNum" value="3" />
 	</RabbitMQ.Connection>
 ```
+  * 执行start.bat批处理脚本，安装或更新windows服务  
+3. 安装RabbitMQ，根据上述1和2的配置设置用户密码和VirtualHost  
+4. 安装Mongodb，根据上述2的配置设置用户密码和数据库  
+
 ### Copyright and license
 
 [Apache 许可证2.0版](http://www.apache.org/licenses/LICENSE-2.0.html)

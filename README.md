@@ -63,7 +63,7 @@
   * 执行start.bat批处理脚本，安装或更新windows服务  
 3. 安装RabbitMQ，根据上述1和2的配置设置用户密码和VirtualHost  
 4. 安装Mongodb，根据上述2的配置设置用户密码和数据库  
-5. 在需要监控的webapi项目中增加配置：  
+5. 在需要监控的webapi项目中引用Snake.Client.dll和Snake.Core.dll动态库，并增加配置：  
   * 在App_Start下WebApiConfig.cs文件中增加一行代码如下：  
   ```
 	public static void Register(HttpConfiguration config)

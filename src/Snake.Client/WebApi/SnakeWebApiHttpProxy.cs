@@ -1,11 +1,9 @@
-﻿using Snake.Client.WebApi.Models;
-using Snake.Core.Models;
+﻿using Snake.Core.Models;
 using Snake.Core.Util;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
-using Snake.Core.Util;
 
 namespace Snake.Client.WebApi
 {

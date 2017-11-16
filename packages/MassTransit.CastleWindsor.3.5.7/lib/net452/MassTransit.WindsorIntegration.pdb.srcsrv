@@ -1,0 +1,20 @@
+SRCSRV: ini ------------------------------------------------
+VERSION=2
+SRCSRV: variables ------------------------------------------
+RAWURL=https://raw.github.com/MassTransit/MassTransit/4297a2783d9698962de1df8c77b3db9e7ebdc1d2/%var2%
+SRCSRVVERCTRL=https
+SRCSRVTRG=%RAWURL%
+SRCSRV: source files ---------------------------------------
+C:\projects\masstransit\src\SolutionVersion.cs*src/SolutionVersion.cs
+C:\projects\masstransit\src\Containers\MassTransit.WindsorIntegration\WindsorCompensateActivityFactory.cs*src/Containers/MassTransit.WindsorIntegration/WindsorCompensateActivityFactory.cs
+C:\projects\masstransit\src\Containers\MassTransit.WindsorIntegration\WindsorExecuteActivityFactory.cs*src/Containers/MassTransit.WindsorIntegration/WindsorExecuteActivityFactory.cs
+C:\projects\masstransit\src\Containers\MassTransit.WindsorIntegration\ConsumerConfiguratorCache.cs*src/Containers/MassTransit.WindsorIntegration/ConsumerConfiguratorCache.cs
+C:\projects\masstransit\src\Containers\MassTransit.WindsorIntegration\MessageLifetimeScope.cs*src/Containers/MassTransit.WindsorIntegration/MessageLifetimeScope.cs
+C:\projects\masstransit\src\Containers\MassTransit.WindsorIntegration\MessageScope.cs*src/Containers/MassTransit.WindsorIntegration/MessageScope.cs
+C:\projects\masstransit\src\Containers\MassTransit.WindsorIntegration\SagaConfiguratorCache.cs*src/Containers/MassTransit.WindsorIntegration/SagaConfiguratorCache.cs
+C:\projects\masstransit\src\Containers\MassTransit.WindsorIntegration\WindsorMessageScopeFilter.cs*src/Containers/MassTransit.WindsorIntegration/WindsorMessageScopeFilter.cs
+C:\projects\masstransit\src\Containers\MassTransit.WindsorIntegration\WindsorMessageScopePipeSpecification.cs*src/Containers/MassTransit.WindsorIntegration/WindsorMessageScopePipeSpecification.cs
+C:\projects\masstransit\src\Containers\MassTransit.WindsorIntegration\WindsorContainerExtensions.cs*src/Containers/MassTransit.WindsorIntegration/WindsorContainerExtensions.cs
+C:\projects\masstransit\src\Containers\MassTransit.WindsorIntegration\WindsorConsumerFactory.cs*src/Containers/MassTransit.WindsorIntegration/WindsorConsumerFactory.cs
+C:\projects\masstransit\src\Containers\MassTransit.WindsorIntegration\WindsorSagaRepository.cs*src/Containers/MassTransit.WindsorIntegration/WindsorSagaRepository.cs
+SRCSRV: end ------------------------------------------------

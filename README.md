@@ -13,7 +13,7 @@
 ### Requirements
 
   * Windows 7 以上操作系统  
-  * IIS 7 +  
+  * IIS 8.5 +  
   * .NET Framework 4.6  
   * [RabbitMQ 3.6.5](http://www.rabbitmq.com)  
   * [Mongodb 3.2.1](https://www.mongodb.com)  

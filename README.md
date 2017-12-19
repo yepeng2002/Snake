@@ -12,7 +12,7 @@
 
 ### Requirements
 
-  * Windows 7 以上操作系统  
+  * Windows 7 、Windows Server 2008以上操作系统  
   * IIS 8.5 +  
   * .NET Framework 4.6  
   * [RabbitMQ 3.6.5](http://www.rabbitmq.com)  

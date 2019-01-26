@@ -74,6 +74,8 @@
   * 在web.config配置文件中增加配置如下：  
 ```
 	<appSettings>
+		<!--TrackLog过滤器开关-->
+		<add key="TrackLogFilterEnabled" value="true" />
 		<!--SnakeApi服务 验签-->
 		<add key="SnakeApi" value="SNAKE_API" />
 		<add key="SnakeApiSecret" value="1!2@3#4$5" />

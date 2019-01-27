@@ -68,8 +68,10 @@
   ```
 	public static void Register(HttpConfiguration config)
 	{
-		// Web API 配置和服务            
-		config.Filters.Add(new TrackLogActionFilterAttribute());  //api执行事件跟踪日志
+            // Web API 配置和服务
+            string filterEnabled = ConfigurationManager.AppSettings["TrackLogFilterEnabled"];
+            if (!string.IsNullOrEmpty(filterEnabled) && filterEnabled.ToLower() == "true")
+                config.Filters.Add(new TrackLogActionFilterAttribute());  //api执行事件跟踪日志
   ```
   * 在web.config配置文件中增加配置如下：  
 ```

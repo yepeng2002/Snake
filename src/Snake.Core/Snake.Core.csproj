@@ -121,6 +121,7 @@
     <Compile Include="Util\MapperProvider.cs" />
     <Compile Include="Util\StringHelper.cs" />
     <Compile Include="Util\TimestampHelper.cs" />
+    <Compile Include="Util\UrlHelper.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

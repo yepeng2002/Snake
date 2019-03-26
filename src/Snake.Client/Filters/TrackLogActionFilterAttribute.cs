@@ -30,20 +30,20 @@ namespace Snake.Client.Filters
             actionContext.Request.Properties[Key] = stopWatch;
             stopWatch.Start();
 
-            ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
-            {
-                SnakeWebApiHttpProxy snakeWebApiHttpProxy = new SnakeWebApiHttpProxy();
-                snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLog()
-                {
-                    AbsolutePath = actionContext.Request.RequestUri.AbsolutePath,
-                    Port = actionContext.Request.RequestUri.Port,
-                    RequestId = requestId,
-                    RequestTime = requestTime,
-                    Url = actionContext.RequestContext.Url.Request.RequestUri.OriginalString,
-                    ControllerName = actionContext.ControllerContext.ControllerDescriptor.ControllerName,
-                    ActionName = actionContext.ActionDescriptor.ActionName
-                });
-            }));
+            //ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
+            //{
+            //    SnakeWebApiHttpProxy snakeWebApiHttpProxy = new SnakeWebApiHttpProxy();
+            //    snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLog()
+            //    {
+            //        AbsolutePath = actionContext.Request.RequestUri.AbsolutePath,
+            //        Port = actionContext.Request.RequestUri.Port,
+            //        RequestId = requestId,
+            //        RequestTime = requestTime,
+            //        Url = actionContext.RequestContext.Url.Request.RequestUri.OriginalString,
+            //        ControllerName = actionContext.ControllerContext.ControllerDescriptor.ControllerName,
+            //        ActionName = actionContext.ActionDescriptor.ActionName
+            //    });
+            //}));
         }
 
         /// <summary>
@@ -69,13 +69,14 @@ namespace Snake.Client.Filters
                     SnakeWebApiHttpProxy snakeWebApiHttpProxy = new SnakeWebApiHttpProxy();
                     snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLog()
                     {
-                        AbsolutePath = actionExecutedContext.Request.RequestUri.AbsolutePath,
-                        Port = actionExecutedContext.Request.RequestUri.Port,
+                        RequestIP = actionExecutedContext.Request.GetClientIpAddress(),
                         RequestId = requestId,
                         RequestTime = requestTime,
-                        Url = actionExecutedContext.Request.RequestUri.OriginalString,
-                        ControllerName = controllerName,
-                        ActionName = actionExecutedContext.ActionContext.ActionDescriptor.ActionName,
+                        ResponseIPv4 = UrlHelper.GetIPv4(),
+                        RequestPort = actionExecutedContext.Request.RequestUri.Port,
+                        RequestUrl = actionExecutedContext.Request.RequestUri.OriginalString,
+                        ResponseController = controllerName,
+                        ResponseAction = actionExecutedContext.ActionContext.ActionDescriptor.ActionName,
                         ExecutedTime = stopWatch.Elapsed.TotalMilliseconds
                     });
                 }));

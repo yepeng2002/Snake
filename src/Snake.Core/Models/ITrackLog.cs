@@ -8,15 +8,25 @@ namespace Snake.Core.Models
 {
     public interface ITrackLog
     {
-        string FromApplication { get; set; }
-        string FromMachine { get; set; }
-        string AbsolutePath { get; set; }
-        int Port { get; set; }
+        string RequestIP { get; set; }
+
+        int RequestPort { get; set; }
+
         string RequestId { get; set; }
+
         DateTime RequestTime { get; set; }
-        string Url { get; set; }
-        string ControllerName { get; set; }
-        string ActionName { get; set; }
+
+        string RequestUrl { get; set; }
+
+        string ResponseApplication { get; set; }
+
+        string ResponseIPv4 { get; set; }
+
+        string ResponseMachine { get; set; }
+
+        string ResponseController { get; set; }
+
+        string ResponseAction { get; set; }
         /// <summary>
         /// 执行时间 ms
         /// </summary>

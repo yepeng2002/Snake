@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Diagnostics;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 
 namespace Snake.Core.Util
@@ -11,37 +13,43 @@ namespace Snake.Core.Util
 
         public static string GetClientIpAddress(this HttpRequestMessage request)
         {
+            string ip = string.Empty;
+
             // Web-hosting. Needs reference to System.Web.dll
             if (request.Properties.ContainsKey(HttpContext))
             {
                 dynamic ctx = request.Properties[HttpContext];
-                if (ctx != null)
+                if (ctx != null && ctx.Request != null)
                 {
-                    return ctx.Request.UserHostAddress;
+                    ip = ctx.Request.UserHostAddress;
                 }
-            }
 
+            }
             // Self-hosting. Needs reference to System.ServiceModel.dll. 
-            if (request.Properties.ContainsKey(RemoteEndpointMessage))
+            else if (request.Properties.ContainsKey(RemoteEndpointMessage))
             {
                 dynamic remoteEndpoint = request.Properties[RemoteEndpointMessage];
-                if (remoteEndpoint != null)
+                if (remoteEndpoint != null && remoteEndpoint.Address != null)
                 {
-                    return remoteEndpoint.Address;
+                    ip = remoteEndpoint.Address;
                 }
             }
-
             // Self-hosting using Owin. Needs reference to Microsoft.Owin.dll. 
-            if (request.Properties.ContainsKey(OwinContext))
+            else if (request.Properties.ContainsKey(OwinContext))
             {
                 dynamic owinContext = request.Properties[OwinContext];
-                if (owinContext != null)
+                if (owinContext != null && owinContext.Request.RemoteIpAddress != null)
                 {
-                    return owinContext.Request.RemoteIpAddress;
+                    ip = owinContext.Request.RemoteIpAddress;
                 }
             }
 
-            return null;
+            if (ip == "::1") ip = "127.0.0.1";
+
+            if (string.IsNullOrEmpty(ip) || !IsIPAddress(ip))
+                return "127.0.0.1";
+            else
+                return ip;
         }
 
         #region  判断是否是IP格式

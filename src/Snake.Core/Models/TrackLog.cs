@@ -12,19 +12,20 @@ namespace Snake.Core.Models
 
         public TrackLog()
         {
-            FromApplication = DefaultApplicationName;
-            FromMachine = DefaultMachineName;
+            ResponseApplication = DefaultApplicationName;
+            ResponseMachine = DefaultMachineName;
         }
 
-        public string FromApplication { get; set; }
-        public string FromMachine { get; set; }
-        public string AbsolutePath { get; set; }
-        public int Port { get; set; }
+        public string RequestIP { get; set; }
+        public string ResponseApplication { get; set; }
+        public string ResponseMachine { get; set; }
+        public string ResponseIPv4 { get; set; }
+        public int RequestPort { get; set; }
         public string RequestId { get; set; }
         public DateTime RequestTime { get; set; }
-        public string Url { get; set; }
-        public string ControllerName { get; set; }
-        public string ActionName { get; set; }
+        public string RequestUrl { get; set; }
+        public string ResponseController { get; set; }
+        public string ResponseAction { get; set; }
         public double? ExecutedTime { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace Snake.Core.Configurations
         public abstract ushort RabbitMqPort { get; }
         public abstract string RabbitMqVirtualHost { get; }
         public abstract string QueueName { get; }
+        public abstract string ExchangeName { get; }
         public abstract string RabbitMqUserName { get; }
         public abstract string RabbitMqPassword { get; }
         public abstract Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> Configuration { get; }

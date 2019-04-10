@@ -18,6 +18,7 @@ namespace Snake.Api.ServiceBus
         public override ushort RabbitMqPort { get; } = StringHelper.ToUshort(RabbitMQConfiguration.Port);
         public override string RabbitMqVirtualHost { get; } = RabbitMQConfiguration.VirtualHost;
         public override string QueueName { get; } = RabbitMQConfiguration.QueueName;
+        public override string ExchangeName { get; } = RabbitMQConfiguration.ExchangeName;
         public override string RabbitMqUserName { get; } = RabbitMQConfiguration.UserName;
         public override string RabbitMqPassword { get; } = RabbitMQConfiguration.Password;
 
@@ -43,7 +44,7 @@ namespace Snake.Api.ServiceBus
                     //    cb.ActiveThreshold = 10; // 当失败次数至少达到10次才会启动熔断
                     //    cb.ResetInterval = TimeSpan.FromMinutes(5);
                     //}); // 当在1分钟内消费失败率达到15%或调用了10次还是失败时，暂停5分钟的服务访问
-                    host.GetSendAddress(QueueName);
+                    host.GetSendAddress(ExchangeName);
                 };
             }
         }        

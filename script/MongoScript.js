@@ -1,4 +1,5 @@
 db.createCollection("TrackLog")
+db.createCollection("AppLog")
 //db.TrackLog.dropIndex({RequestTime:1})
 //db.TrackLog.createIndex({RequestTime:1},{expireAfterSeconds:60*60*24*1})
 //db.TrackLog.ensureIndex({"RequestTime":1},{expireAfterSeconds:60*60*24*1},{"background":true})

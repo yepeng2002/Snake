@@ -19,8 +19,31 @@ namespace Snake.Api.Controllers
                 result.Code = (int)ServiceResultCode.ParameterError;
             try
             {
-                var trackLogService = GetService<TrackLogService>();
+                var trackLogService = GetService<LogService>();
                 trackLogService.CreateTrackLog(trackLog);
+                result.Code = (int)ServiceResultCode.Succeeded;
+            }
+            catch (Exception e)
+            {
+                result.Data = null;
+                result.Message = "服务器异常！";
+                result.Code = (int)ServiceResultCode.UndefinedError;
+            }
+            return result;
+        }
+
+        [Route("PublishAppLog")]
+        [HttpPost]
+        [SnakeBasicAuthorize]
+        public TransData<string> PublishAppLog([FromBody]AppLog appLog)
+        {
+            var result = new TransData<string>();
+            if (appLog == null)
+                result.Code = (int)ServiceResultCode.ParameterError;
+            try
+            {
+                var trackLogService = GetService<LogService>();
+                trackLogService.CreateAppLog(appLog);
                 result.Code = (int)ServiceResultCode.Succeeded;
             }
             catch (Exception e)

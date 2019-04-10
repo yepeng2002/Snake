@@ -5,11 +5,11 @@ using Snake.Core.Util;
 
 namespace Snake.Api.Services
 {
-    public class TrackLogService : BaseService
+    public class LogService : BaseService
     {
         private readonly IBus _bus;
 
-        public TrackLogService()
+        public LogService()
         {
             _bus = GetService<IBus>();
         }
@@ -18,6 +18,12 @@ namespace Snake.Api.Services
         {
             TrackLogCreatedEvent trackLogCreatedEvent = MapperProvider.MapTo<TrackLogCreatedEvent>(trackLog);
             _bus.Publish(trackLogCreatedEvent);
+        }
+
+        public void CreateAppLog(AppLog appLog)
+        {
+            AppLogCreatedEvent appLogCreatedEvent = MapperProvider.MapTo<AppLogCreatedEvent>(appLog);
+            _bus.Publish(appLogCreatedEvent);
         }
     }
 }

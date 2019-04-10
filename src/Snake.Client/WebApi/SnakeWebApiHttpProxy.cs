@@ -187,12 +187,19 @@ namespace Snake.Client.WebApi
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="footballFitData"></param>
+        /// <param name="trackLog"></param>
         /// <returns></returns>
         public Tuple<bool, T> PublishTrackLog<T>(TrackLog trackLog)
         {
             Dictionary<string, object> paramDic = trackLog.ToDictionary();
             var action = "PublishTrackLog";
+            return DoPost<T>(SNAKE_WEBAPI_TRACKLOG_CONTROLLER, action, paramDic);
+        }
+
+        public Tuple<bool, T> PublishAppLog<T>(AppLog appLog)
+        {
+            Dictionary<string, object> paramDic = appLog.ToDictionary();
+            var action = "PublishAppLog";
             return DoPost<T>(SNAKE_WEBAPI_TRACKLOG_CONTROLLER, action, paramDic);
         }
 

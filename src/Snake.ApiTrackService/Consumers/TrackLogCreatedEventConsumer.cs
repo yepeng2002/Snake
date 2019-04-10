@@ -15,7 +15,6 @@ namespace Snake.ApiTrackService.Consumers
                 if (context.Message != null)
                 {
                     var repository = MongoRepository<TrackLogCreatedEvent>.Instance;
-                    TrackLogCreatedEvent trackLogCreatedEvent = new TrackLogCreatedEvent();
                     var obj = repository.Add(context.Message);
                 }
                 Console.WriteLine($"Recevied By Consumer:{context.Message.GUID}");

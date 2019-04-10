@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationBootstrapper.cs" />
+    <Compile Include="Consumers\AppLogCreatedEventConsumer.cs" />
     <Compile Include="Consumers\TrackLogCreatedEventConsumer.cs" />
     <Compile Include="ContainerInstallers\WindsorInstaller.cs" />
     <Compile Include="Observers\ReceiveObserver.cs" />

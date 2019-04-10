@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake.DemoApi", "test\Snake.DemoApi\Snake.DemoApi.csproj", "{2A66FBA7-CB22-4C4E-9D5C-B692E1B5AF1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake.DemoConsole", "test\Snake.DemoConsole\Snake.DemoConsole.csproj", "{175AC7C5-BEA1-4F04-8B44-471CD6E4F7E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{2A66FBA7-CB22-4C4E-9D5C-B692E1B5AF1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A66FBA7-CB22-4C4E-9D5C-B692E1B5AF1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A66FBA7-CB22-4C4E-9D5C-B692E1B5AF1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{175AC7C5-BEA1-4F04-8B44-471CD6E4F7E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{175AC7C5-BEA1-4F04-8B44-471CD6E4F7E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{175AC7C5-BEA1-4F04-8B44-471CD6E4F7E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{175AC7C5-BEA1-4F04-8B44-471CD6E4F7E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,5 +71,9 @@ Global
 		{1CAD0819-29C0-4E22-9252-80BD0DE23FB8} = {7294A7DA-184B-428C-B46B-3FFADCCD6D0D}
 		{637DC1A2-190A-4F5D-9ACA-962E2B76DB1B} = {7294A7DA-184B-428C-B46B-3FFADCCD6D0D}
 		{2A66FBA7-CB22-4C4E-9D5C-B692E1B5AF1E} = {849A6946-EA2A-4853-BAC3-4B43049EE897}
+		{175AC7C5-BEA1-4F04-8B44-471CD6E4F7E1} = {849A6946-EA2A-4853-BAC3-4B43049EE897}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {035F3711-611D-4076-907A-A92DF485A7DB}
 	EndGlobalSection
 EndGlobal

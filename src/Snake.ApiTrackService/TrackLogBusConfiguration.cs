@@ -19,6 +19,7 @@ namespace Snake.ApiTrackService
         public override ushort RabbitMqPort { get; } = StringHelper.ToUshort(RabbitMQConfiguration.Port);
         public override string RabbitMqVirtualHost { get; } = RabbitMQConfiguration.VirtualHost;
         public override string QueueName { get; } = RabbitMQConfiguration.QueueName;
+        public override string ExchangeName { get; } = RabbitMQConfiguration.ExchangeName;
         public override string RabbitMqUserName { get; } = RabbitMQConfiguration.UserName;
         public override string RabbitMqPassword { get; } = RabbitMQConfiguration.Password;
 

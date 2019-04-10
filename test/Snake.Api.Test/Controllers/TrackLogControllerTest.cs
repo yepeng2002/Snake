@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Snake.Client;
 
 namespace Snake.Api.Test.Controllers
 {
@@ -11,9 +12,9 @@ namespace Snake.Api.Test.Controllers
     public class TrackLogControllerTest
     {
         [TestMethod]
-        public void PublishTrackLog()
+        public void PublishAppLog()
         {
-
+            LogProxy.Error("Exception：测试异常！");
         }
     }
 }

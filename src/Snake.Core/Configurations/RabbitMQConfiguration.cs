@@ -17,6 +17,7 @@ namespace Snake.Core.Configurations
         private const string KeyHostName = PrefixServerConfiguration + ".HostName";
         private const string KeyPort = PrefixServerConfiguration + ".Port";
         private const string KeyQueueName = PrefixServerConfiguration + ".QueueName";
+        private const string KeyExchangeName = PrefixServerConfiguration + ".ExchangeName";
         private const string KeyUserName = PrefixServerConfiguration + ".UserName";
         private const string KeyPassword = PrefixServerConfiguration + ".Password";
         private const string KeyVirtualHost = PrefixServerConfiguration + ".VirtualHost";
@@ -30,6 +31,7 @@ namespace Snake.Core.Configurations
         private const string DefaultVirtualHost = "Dev";
         private const string DefaultPort = "5672";
         private const string DefaultQueueName = "testqueue";
+        private const string DefaultExchangeName = "testqueue";
         private const string DefaultConsumerNum = "1";
         private const string DefaultUseRetryNum = "3";
         private const string DefaultUseRateLimit = "1000";
@@ -61,6 +63,11 @@ namespace Snake.Core.Configurations
         public static string QueueName
         {
             get { return GetConfigurationOrDefault(KeyQueueName, DefaultQueueName); }
+        }
+
+        public static string ExchangeName
+        {
+            get { return GetConfigurationOrDefault(KeyExchangeName, DefaultExchangeName); }
         }
         /// <summary>
         /// Gets the UserName of RabbitMQ.

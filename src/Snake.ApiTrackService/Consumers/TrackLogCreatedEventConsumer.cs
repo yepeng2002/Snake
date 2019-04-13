@@ -17,7 +17,7 @@ namespace Snake.ApiTrackService.Consumers
                     var repository = MongoRepository<TrackLogCreatedEvent>.Instance;
                     var obj = repository.Add(context.Message);
                 }
-                Console.WriteLine($"Recevied By Consumer:{context.Message.GUID}");
+                Console.WriteLine($"Recevied By TrackLogCreatedEventConsumer:{context.Message.GUID}");
             });
         }
     }

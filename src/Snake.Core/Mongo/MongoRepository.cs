@@ -55,6 +55,13 @@ namespace Snake.Core.Mongo
             return result;
         }
 
+        public List<T> GetPageOrderBy(FilterDefinition<T> filter, SortDefinition<T> sort, QueryParams pParams)
+        {
+            var result = _collection.Find(filter).Sort(sort).Skip((pParams.Index - 1) * pParams.Size).Limit(
+                            pParams.Size).ToList();
+            return result;
+        }
+
         public List<T> GetPageAsc(Expression<Func<T, bool>> criteria, Expression<Func<T, object>> ascSort, QueryParams pParams)
         {
             var sort = new SortDefinitionBuilder<T>();

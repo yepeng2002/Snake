@@ -487,5 +487,38 @@
             </summary>
             <param name="message">验证信息</param>
         </member>
+        <member name="T:Snake.Api.Controllers.TrackLogController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Snake.Api.Controllers.TrackLogController.PublishTrackLog(Snake.Core.Models.TrackLog)">
+            <summary>
+            
+            </summary>
+            <param name="trackLog"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snake.Api.Controllers.TrackLogController.PublishAppLog(Snake.Core.Models.AppLog)">
+            <summary>
+            
+            </summary>
+            <param name="appLog"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snake.Api.Controllers.TrackLogController.GetAppLogs(Snake.Core.Models.AppLog)">
+            <summary>
+            查询日志
+            </summary>
+            <param name="appLog">带分页的实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:Snake.Api.Controllers.TrackLogController.GetAppLogsPage(Snake.Core.Models.PageAppLog)">
+            <summary>
+            
+            </summary>
+            <param name="appLog"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

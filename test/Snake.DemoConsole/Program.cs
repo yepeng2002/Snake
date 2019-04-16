@@ -19,7 +19,7 @@ namespace Snake.DemoConsole
                 {
                     for (int index = 0; index < 100; index++)
                     {
-                        LogProxy.Error(string.Format("{0}_{1}", "Exception: ", index));
+                        LogProxy.Error(string.Format("{0}_{1}", "Exception: ", index), "Snake.DemoConsole", new Random().Next(1,5));
                         Console.WriteLine("Log{0} published", index);
                     }
                 });

@@ -87,7 +87,7 @@ namespace Snake.Api.Controllers
         [Route("GetAppLogs")]
         [HttpPost]
         [SnakeBasicAuthorize]
-        public TransData<IList<AppLogCreatedEvent>> GetAppLogs([FromBody]PageAppLog appLog)
+        public TransData<IList<AppLogCreatedEvent>> GetAppLogs([FromBody]AppLog appLog)
         {
             var result = new TransData<IList<AppLogCreatedEvent>>();
             if (appLog == null)
@@ -138,6 +138,10 @@ namespace Snake.Api.Controllers
             {
                 return Response<IList<AppLogCreatedEvent>>(null, "Parameter is null", (int)ServiceResultCode.ParameterError);
             }
+            if (appLog.PageIndex <= 0 || appLog.PageSize <= 0)
+            {
+                return Response<IList<AppLogCreatedEvent>>(null, "Page param is null", (int)ServiceResultCode.ParameterError);
+            }
             if (appLog.CTime == null)
             {
                 return Response<IList<AppLogCreatedEvent>>(null, "CTime is null", (int)ServiceResultCode.ParameterError);
@@ -147,13 +151,34 @@ namespace Snake.Api.Controllers
             {
                 var repository = MongoRepository<AppLogCreatedEvent>.Instance;
                 var list = new List<FilterDefinition<AppLogCreatedEvent>>();
-                list.Add(Builders<AppLogCreatedEvent>.Filter.Gt("CTime", appLog.CTime));
+                list.Add(Builders<AppLogCreatedEvent>.Filter.Gt(x => x.CTime, appLog.CTime));
                 if (!string.IsNullOrEmpty(appLog.Application))
                 {
-                    list.Add(Builders<AppLogCreatedEvent>.Filter.Eq("Application", appLog.Application));
+                    list.Add(Builders<AppLogCreatedEvent>.Filter.Eq(x => x.Application, appLog.Application));
+                }
+                if (!string.IsNullOrEmpty(appLog.IPv4))
+                {
+                    list.Add(Builders<AppLogCreatedEvent>.Filter.Eq(x => x.IPv4, appLog.IPv4));
+                }
+                if (!string.IsNullOrEmpty(appLog.Machine))
+                {
+                    list.Add(Builders<AppLogCreatedEvent>.Filter.Eq(x => x.Machine, appLog.Machine));
+                }
+                if (!string.IsNullOrEmpty(appLog.LogCategory))
+                {
+                    list.Add(Builders<AppLogCreatedEvent>.Filter.Eq(x => x.LogCategory, appLog.LogCategory));
+                }
+                if (appLog.Level >= 1)
+                {
+                    list.Add(Builders<AppLogCreatedEvent>.Filter.Eq(x => x.Level, appLog.Level));
+                }
+                if (!string.IsNullOrEmpty(appLog.Message))
+                {
+                    //list.Add(Builders<AppLogCreatedEvent>.Filter.Text(appLog.Message));  //大量消耗内存，慎用
+                    list.Add(Builders<AppLogCreatedEvent>.Filter.Eq("Message", appLog.Message));
                 }
                 FilterDefinition<AppLogCreatedEvent> filter = Builders<AppLogCreatedEvent>.Filter.And(list);
-                var sort = Builders<AppLogCreatedEvent>.Sort.Descending("CTime");
+                var sort = Builders<AppLogCreatedEvent>.Sort.Descending(x => x.CTime);
                 result.Data = repository.GetPageOrderBy(filter, sort, new QueryParams() { Index = appLog.PageIndex, Size = appLog.PageSize });
                 result.Code = (int)ServiceResultCode.Succeeded;
             }

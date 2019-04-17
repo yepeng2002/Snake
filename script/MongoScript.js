@@ -1,7 +1,7 @@
 db.createCollection("TrackLog")
 //db.TrackLog.dropIndex({RequestTime:1})
 //db.TrackLog.createIndex({RequestTime:1},{expireAfterSeconds:60*60*24*1})
-db.TrackLog.ensureIndex({"RequestTime":1},{expireAfterSeconds:60*60*24*1},{"background":true})
+db.TrackLog.ensureIndex({"RequestTime":1},{expireAfterSeconds:60*60*24*100},{"background":true})
 //db.TrackLog.getIndexes()
 //db.TrackLog.find({Url:"testurl003"}).explain()
 //db.TrackLog.remove({ActionName:"Post"})

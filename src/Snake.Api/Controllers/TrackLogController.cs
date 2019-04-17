@@ -12,23 +12,23 @@ using System.Web.Http;
 namespace Snake.Api.Controllers
 {
     /// <summary>
-    /// 
+    /// 日志管理
     /// </summary>
     [RoutePrefix("api/TrackLog")]
     public class TrackLogController : BaseApiController
     {
         /// <summary>
-        /// 
+        /// 提交api监控日志消息
         /// </summary>
-        /// <param name="trackLog"></param>
+        /// <param name="trackLogCreatedEvent">新增api监控日志事件实体</param>
         /// <returns></returns>
         [Route("PublishTrackLog")]
         [HttpPost]
         [SnakeBasicAuthorize]
-        public TransData<string> PublishTrackLog([FromBody]TrackLog trackLog)
+        public TransData<string> PublishTrackLog([FromBody]TrackLogCreatedEvent trackLogCreatedEvent)
         {
             var result = new TransData<string>();
-            if (trackLog == null)
+            if (trackLogCreatedEvent == null)
             {
                 return Response<string>(null, "Parameter is null", (int)ServiceResultCode.ParameterError);
             }
@@ -36,7 +36,7 @@ namespace Snake.Api.Controllers
             try
             {
                 var trackLogService = GetService<LogService>();
-                trackLogService.CreateTrackLog(trackLog);
+                trackLogService.CreateTrackLog(trackLogCreatedEvent);
                 result.Code = (int)ServiceResultCode.Succeeded;
             }
             catch (Exception e)
@@ -49,17 +49,17 @@ namespace Snake.Api.Controllers
         }
 
         /// <summary>
-        /// 
+        /// 提交应用日志消息
         /// </summary>
-        /// <param name="appLog"></param>
+        /// <param name="appLogCreatedEvent">新增应用日志事件实体</param>
         /// <returns></returns>
         [Route("PublishAppLog")]
         [HttpPost]
         [SnakeBasicAuthorize]
-        public TransData<string> PublishAppLog([FromBody]AppLog appLog)
+        public TransData<string> PublishAppLog([FromBody]AppLogCreatedEvent appLogCreatedEvent)
         {
             var result = new TransData<string>();
-            if (appLog == null)
+            if (appLogCreatedEvent == null)
             {
                 return Response<string>(null, "Parameter is null", (int)ServiceResultCode.ParameterError);
             }
@@ -67,7 +67,7 @@ namespace Snake.Api.Controllers
             try
             {
                 var trackLogService = GetService<LogService>();
-                trackLogService.CreateAppLog(appLog);
+                trackLogService.CreateAppLog(appLogCreatedEvent);
                 result.Code = (int)ServiceResultCode.Succeeded;
             }
             catch (Exception e)
@@ -80,106 +80,62 @@ namespace Snake.Api.Controllers
         }
 
         /// <summary>
-        /// 查询日志
+        /// 查询日志带分页
         /// </summary>
-        /// <param name="appLog">带分页的实体</param>
-        /// <returns></returns>
-        [Route("GetAppLogs")]
-        [HttpPost]
-        [SnakeBasicAuthorize]
-        public TransData<IList<AppLogCreatedEvent>> GetAppLogs([FromBody]AppLog appLog)
-        {
-            var result = new TransData<IList<AppLogCreatedEvent>>();
-            if (appLog == null)
-            {
-                return Response<IList<AppLogCreatedEvent>>(null, "Parameter is null", (int)ServiceResultCode.ParameterError);
-            }
-            if (appLog.CTime == null)
-            {
-                return Response<IList<AppLogCreatedEvent>>(null, "CTime is null", (int)ServiceResultCode.ParameterError);
-            }
-
-            try
-            {
-                var repository = MongoRepository<AppLogCreatedEvent>.Instance;
-                ParameterExpression parameter = Expression.Parameter(typeof(AppLogCreatedEvent));
-                Expression condiction1 = Expression.GreaterThanOrEqual(Expression.Property(parameter, "CTime"), Expression.Constant(appLog.CTime));
-                Expression condiction = condiction1;
-                if (!string.IsNullOrEmpty(appLog.Application))
-                {
-                    Expression condiction2 = Expression.Equal(Expression.Property(parameter, "Application"), Expression.Constant(appLog.Application));
-                    condiction = Expression.AndAlso(condiction, condiction2);
-                }
-                var lambda = Expression.Lambda<Func<AppLogCreatedEvent, bool>>(condiction, parameter);
-                result.Data = repository.GetList(lambda);
-                result.Code = (int)ServiceResultCode.Succeeded;
-            }
-            catch (Exception e)
-            {
-                result.Data = null;
-                result.Message = "服务器异常！";
-                result.Code = (int)ServiceResultCode.UndefinedError;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="appLog"></param>
+        /// <param name="pageAppLog">带分页的日志请求</param>
         /// <returns></returns>
         [Route("GetAppLogsPage")]
         [HttpPost]
         [SnakeBasicAuthorize]
-        public TransData<IList<AppLogCreatedEvent>> GetAppLogsPage([FromBody]PageAppLog appLog)
+        public TransData<IList<AppLog>> GetAppLogsPage([FromBody]PageAppLog pageAppLog)
         {
-            var result = new TransData<IList<AppLogCreatedEvent>>();
-            if (appLog == null)
+            var result = new TransData<IList<AppLog>>();
+            if (pageAppLog == null)
             {
-                return Response<IList<AppLogCreatedEvent>>(null, "Parameter is null", (int)ServiceResultCode.ParameterError);
+                return Response<IList<AppLog>>(null, "Parameter is null", (int)ServiceResultCode.ParameterError);
             }
-            if (appLog.PageIndex <= 0 || appLog.PageSize <= 0)
+            if (pageAppLog.PageIndex <= 0 || pageAppLog.PageSize <= 0)
             {
-                return Response<IList<AppLogCreatedEvent>>(null, "Page param is null", (int)ServiceResultCode.ParameterError);
+                return Response<IList<AppLog>>(null, "Page param is null", (int)ServiceResultCode.ParameterError);
             }
-            if (appLog.CTime == null)
+            if (pageAppLog.CTime == null)
             {
-                return Response<IList<AppLogCreatedEvent>>(null, "CTime is null", (int)ServiceResultCode.ParameterError);
+                return Response<IList<AppLog>>(null, "CTime is null", (int)ServiceResultCode.ParameterError);
             }
 
             try
             {
-                var repository = MongoRepository<AppLogCreatedEvent>.Instance;
-                var list = new List<FilterDefinition<AppLogCreatedEvent>>();
-                list.Add(Builders<AppLogCreatedEvent>.Filter.Gt(x => x.CTime, appLog.CTime));
-                if (!string.IsNullOrEmpty(appLog.Application))
+                var repository = MongoRepository<AppLog>.Instance;
+                var list = new List<FilterDefinition<AppLog>>();
+                list.Add(Builders<AppLog>.Filter.Gt(x => x.CTime, pageAppLog.CTime));
+                if (!string.IsNullOrEmpty(pageAppLog.Application))
                 {
-                    list.Add(Builders<AppLogCreatedEvent>.Filter.Eq(x => x.Application, appLog.Application));
+                    list.Add(Builders<AppLog>.Filter.Eq(x => x.Application, pageAppLog.Application));
                 }
-                if (!string.IsNullOrEmpty(appLog.IPv4))
+                if (!string.IsNullOrEmpty(pageAppLog.IPv4))
                 {
-                    list.Add(Builders<AppLogCreatedEvent>.Filter.Eq(x => x.IPv4, appLog.IPv4));
+                    list.Add(Builders<AppLog>.Filter.Eq(x => x.IPv4, pageAppLog.IPv4));
                 }
-                if (!string.IsNullOrEmpty(appLog.Machine))
+                if (!string.IsNullOrEmpty(pageAppLog.Machine))
                 {
-                    list.Add(Builders<AppLogCreatedEvent>.Filter.Eq(x => x.Machine, appLog.Machine));
+                    list.Add(Builders<AppLog>.Filter.Eq(x => x.Machine, pageAppLog.Machine));
                 }
-                if (!string.IsNullOrEmpty(appLog.LogCategory))
+                if (!string.IsNullOrEmpty(pageAppLog.LogCategory))
                 {
-                    list.Add(Builders<AppLogCreatedEvent>.Filter.Eq(x => x.LogCategory, appLog.LogCategory));
+                    list.Add(Builders<AppLog>.Filter.Eq(x => x.LogCategory, pageAppLog.LogCategory));
                 }
-                if (appLog.Level >= 1)
+                if (pageAppLog.Level >= 1)
                 {
-                    list.Add(Builders<AppLogCreatedEvent>.Filter.Eq(x => x.Level, appLog.Level));
+                    list.Add(Builders<AppLog>.Filter.Eq(x => x.Level, pageAppLog.Level));
                 }
-                if (!string.IsNullOrEmpty(appLog.Message))
+                if (!string.IsNullOrEmpty(pageAppLog.Message))
                 {
-                    //list.Add(Builders<AppLogCreatedEvent>.Filter.Text(appLog.Message));  //大量消耗内存，慎用
-                    list.Add(Builders<AppLogCreatedEvent>.Filter.Eq("Message", appLog.Message));
+                    //list.Add(Builders<AppLog>.Filter.Text(appLog.Message));  //大量消耗内存，慎用
+                    list.Add(Builders<AppLog>.Filter.Eq("Message", pageAppLog.Message));
                 }
-                FilterDefinition<AppLogCreatedEvent> filter = Builders<AppLogCreatedEvent>.Filter.And(list);
-                var sort = Builders<AppLogCreatedEvent>.Sort.Descending(x => x.CTime);
-                result.Data = repository.GetPageOrderBy(filter, sort, new QueryParams() { Index = appLog.PageIndex, Size = appLog.PageSize });
+                FilterDefinition<AppLog> filter = Builders<AppLog>.Filter.And(list);
+                var sort = Builders<AppLog>.Sort.Descending(x => x.CTime);
+                result.Data = repository.GetPageOrderBy(filter, sort, new QueryParams() { Index = pageAppLog.PageIndex, Size = pageAppLog.PageSize });
                 result.Code = (int)ServiceResultCode.Succeeded;
             }
             catch (Exception e)

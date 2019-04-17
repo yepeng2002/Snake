@@ -5,7 +5,9 @@ using System.Diagnostics;
 
 namespace Snake.Core.Events
 {
-    [CollectionName("TrackLog")]
+    /// <summary>
+    /// 新增api监控日志事件实体
+    /// </summary>
     public class TrackLogCreatedEvent : BaseEvent, ITrackLog
     {
         public static readonly string DefaultApplicationName = Process.GetCurrentProcess().MainModule.FileName;
@@ -15,6 +17,8 @@ namespace Snake.Core.Events
         {
             GUID = Guid.NewGuid();
             CreateTime = DateTime.Now;
+            ResponseApplication = DefaultApplicationName;
+            ResponseMachine = DefaultMachineName;
         }
 
         #region private set

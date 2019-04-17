@@ -6,9 +6,8 @@ using Snake.Core.Mongo;
 namespace Snake.Core.Events
 {
     [BsonIgnoreExtraElements(Inherited = true)]
-    public abstract class BaseEvent:IEvent,IEntity
+    public abstract class BaseEvent:IEvent
     {
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+
     }
 }

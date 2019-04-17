@@ -1,4 +1,5 @@
-﻿using Snake.Core.Models;
+﻿using Snake.Core.Events;
+using Snake.Core.Models;
 using Snake.Core.Util;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Snake.Client.WebApi
 
         const string SNAKE_API_KEY = "SnakeApi";
         const string SNAKE_API_SECRET = "SnakeApiSecret";
-        const string SNAKE_FLASKAPI = "SnakeServerApi";
+        const string SNAKE_API = "SnakeServerApi";
         const string SNAKE_WEBAPI_TRACKLOG_CONTROLLER = "api/TrackLog";
 
         #endregion
@@ -27,7 +28,7 @@ namespace Snake.Client.WebApi
             //用于发送get请求到EMFLASKAPI
             _emFlaskApiKey = ConfigurationManager.AppSettings[SNAKE_API_KEY];
             _emFlaskApiSercret = ConfigurationManager.AppSettings[SNAKE_API_SECRET];
-            _baseUrl = ConfigurationManager.AppSettings[SNAKE_FLASKAPI];
+            _baseUrl = ConfigurationManager.AppSettings[SNAKE_API];
         }
 
         #endregion
@@ -189,14 +190,14 @@ namespace Snake.Client.WebApi
         /// <typeparam name="T"></typeparam>
         /// <param name="trackLog"></param>
         /// <returns></returns>
-        public Tuple<bool, T> PublishTrackLog<T>(TrackLog trackLog)
+        public Tuple<bool, T> PublishTrackLog<T>(TrackLogCreatedEvent trackLog)
         {
             Dictionary<string, object> paramDic = trackLog.ToDictionary();
             var action = "PublishTrackLog";
             return DoPost<T>(SNAKE_WEBAPI_TRACKLOG_CONTROLLER, action, paramDic);
         }
 
-        public Tuple<bool, T> PublishAppLog<T>(AppLog appLog)
+        public Tuple<bool, T> PublishAppLog<T>(AppLogCreatedEvent appLog)
         {
             Dictionary<string, object> paramDic = appLog.ToDictionary();
             var action = "PublishAppLog";

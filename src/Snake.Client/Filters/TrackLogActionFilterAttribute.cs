@@ -1,4 +1,5 @@
 ﻿using Snake.Client.WebApi;
+using Snake.Core.Events;
 using Snake.Core.Models;
 using Snake.Core.Util;
 using System;
@@ -33,7 +34,7 @@ namespace Snake.Client.Filters
             //ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
             //{
             //    SnakeWebApiHttpProxy snakeWebApiHttpProxy = new SnakeWebApiHttpProxy();
-            //    snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLog()
+            //    snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLogCreatedEvent()
             //    {
             //        AbsolutePath = actionContext.Request.RequestUri.AbsolutePath,
             //        Port = actionContext.Request.RequestUri.Port,
@@ -67,7 +68,7 @@ namespace Snake.Client.Filters
                 ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
                 {
                     SnakeWebApiHttpProxy snakeWebApiHttpProxy = new SnakeWebApiHttpProxy();
-                    snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLog()
+                    snakeWebApiHttpProxy.PublishTrackLog<string>(new TrackLogCreatedEvent()
                     {
                         RequestIP = actionExecutedContext.Request.GetClientIpAddress(),
                         RequestId = requestId,

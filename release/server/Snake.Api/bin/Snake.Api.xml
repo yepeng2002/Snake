@@ -489,36 +489,34 @@
         </member>
         <member name="T:Snake.Api.Controllers.TrackLogController">
             <summary>
-            
+            日志管理
             </summary>
         </member>
-        <member name="M:Snake.Api.Controllers.TrackLogController.PublishTrackLog(Snake.Core.Models.TrackLog)">
+        <member name="M:Snake.Api.Controllers.TrackLogController.PublishTrackLog(Snake.Core.Events.TrackLogCreatedEvent)">
             <summary>
-            
+            提交api监控日志消息
             </summary>
-            <param name="trackLog"></param>
+            <param name="trackLogCreatedEvent">新增api监控日志事件实体</param>
             <returns></returns>
         </member>
-        <member name="M:Snake.Api.Controllers.TrackLogController.PublishAppLog(Snake.Core.Models.AppLog)">
+        <member name="M:Snake.Api.Controllers.TrackLogController.PublishAppLog(Snake.Core.Events.AppLogCreatedEvent)">
             <summary>
-            
+            提交应用日志消息
             </summary>
-            <param name="appLog"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Snake.Api.Controllers.TrackLogController.GetAppLogs(Snake.Core.Models.AppLog)">
-            <summary>
-            查询日志
-            </summary>
-            <param name="appLog">带分页的实体</param>
+            <param name="appLogCreatedEvent">新增应用日志事件实体</param>
             <returns></returns>
         </member>
         <member name="M:Snake.Api.Controllers.TrackLogController.GetAppLogsPage(Snake.Core.Models.PageAppLog)">
             <summary>
-            
+            查询日志带分页
             </summary>
-            <param name="appLog"></param>
+            <param name="pageAppLog">带分页的日志请求</param>
             <returns></returns>
+        </member>
+        <member name="T:Snake.Api.Services.LogService">
+            <summary>
+            日志逻辑服务层
+            </summary>
         </member>
     </members>
 </doc>

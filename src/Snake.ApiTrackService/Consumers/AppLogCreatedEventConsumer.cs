@@ -1,6 +1,8 @@
 ﻿using MassTransit;
 using Snake.Core.Events;
+using Snake.Core.Models;
 using Snake.Core.Mongo;
+using Snake.Core.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +19,9 @@ namespace Snake.ApiTrackService.Consumers
             {
                 if (context.Message != null)
                 {
-                    var repository = MongoRepository<AppLogCreatedEvent>.Instance;
-                    var obj = repository.Add(context.Message);
+                    var repository = MongoRepository<AppLog>.Instance;
+                    AppLog appLog = MapperProvider.MapTo<AppLog>(context.Message);
+                    var obj = repository.Add(appLog);
                 }
                 Console.WriteLine($"Recevied By AppLogCreatedEventConsumer:{context.Message.Guid}");
             });

@@ -123,6 +123,11 @@
             3,4,5：无
             </summary>
         </member>
+        <member name="P:Snake.Core.Events.AppLogCreatedEvent.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
         <member name="T:Snake.Core.Events.TrackLogCreatedEvent">
             <summary>
             新增api监控日志事件实体

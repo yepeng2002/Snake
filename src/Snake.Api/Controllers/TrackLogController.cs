@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace Snake.Api.Controllers
 {
@@ -25,6 +26,7 @@ namespace Snake.Api.Controllers
         [Route("PublishTrackLog")]
         [HttpPost]
         [SnakeBasicAuthorize]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public TransData<string> PublishTrackLog([FromBody]TrackLogCreatedEvent trackLogCreatedEvent)
         {
             var result = new TransData<string>();
@@ -132,6 +134,10 @@ namespace Snake.Api.Controllers
                 {
                     //list.Add(Builders<AppLog>.Filter.Text(appLog.Message));  //大量消耗内存，慎用
                     list.Add(Builders<AppLog>.Filter.Eq("Message", pageAppLog.Message));
+                }
+                if (pageAppLog.Tags != null && pageAppLog.Tags.Count > 0)
+                {
+                    list.Add(Builders<AppLog>.Filter.All(x => x.Tags, pageAppLog.Tags));
                 }
                 FilterDefinition<AppLog> filter = Builders<AppLog>.Filter.And(list);
                 var sort = Builders<AppLog>.Sort.Descending(x => x.CTime);

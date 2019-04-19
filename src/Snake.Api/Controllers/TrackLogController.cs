@@ -13,7 +13,7 @@ using System.Web.Http.Description;
 namespace Snake.Api.Controllers
 {
     /// <summary>
-    /// 日志管理
+    /// 日志管理控制器
     /// </summary>
     [RoutePrefix("api/TrackLog")]
     public class TrackLogController : BaseApiController

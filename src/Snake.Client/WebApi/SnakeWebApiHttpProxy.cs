@@ -204,6 +204,27 @@ namespace Snake.Client.WebApi
             return DoPost<T>(SNAKE_WEBAPI_TRACKLOG_CONTROLLER, action, paramDic);
         }
 
+        public Tuple<bool, T> GetAppLogsPage<T>(PageAppLog appLog)
+        {
+            Dictionary<string, object> paramDic = appLog.ToDictionary();
+            var action = "GetAppLogsPage";
+            return DoPost<T>(SNAKE_WEBAPI_TRACKLOG_CONTROLLER, action, paramDic);
+        }
+
+        public Tuple<bool, T> QueryApplicationOfAppLog<T>(QueryParamDto dto)
+        {
+            Dictionary<string, object> paramDic = dto.ToDictionary();
+            var action = "QueryApplicationOfAppLog";
+            return DoPost<T>(SNAKE_WEBAPI_TRACKLOG_CONTROLLER, action, paramDic);
+        }
+
+        public Tuple<bool, T> QueryTagsOfAppLog<T>(QueryParamDto dto)
+        {
+            Dictionary<string, object> paramDic = dto.ToDictionary();
+            var action = "QueryTagsOfAppLog";
+            return DoPost<T>(SNAKE_WEBAPI_TRACKLOG_CONTROLLER, action, paramDic);
+        }
+
         #endregion
     }
 

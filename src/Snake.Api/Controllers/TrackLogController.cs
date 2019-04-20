@@ -4,9 +4,10 @@ using Snake.Core.Enums;
 using Snake.Core.Events;
 using Snake.Core.Models;
 using Snake.Core.Mongo;
+using Snake.Core.Redis;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -44,7 +45,7 @@ namespace Snake.Api.Controllers
             catch (Exception e)
             {
                 result.Data = null;
-                result.Message = "服务器异常！";
+                result.Message = "服务异常！";
                 result.Code = (int)ServiceResultCode.UndefinedError;
             }
             return result;
@@ -75,7 +76,7 @@ namespace Snake.Api.Controllers
             catch (Exception e)
             {
                 result.Data = null;
-                result.Message = "服务器异常！";
+                result.Message = "服务异常！";
                 result.Code = (int)ServiceResultCode.UndefinedError;
             }
             return result;
@@ -147,7 +148,85 @@ namespace Snake.Api.Controllers
             catch (Exception e)
             {
                 result.Data = null;
-                result.Message = "服务器异常！";
+                result.Message = "服务异常！";
+                result.Code = (int)ServiceResultCode.UndefinedError;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 模糊查找Application名称序列
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [Route("QueryApplicationOfAppLog")]
+        [HttpPost]
+        [SnakeBasicAuthorize]
+        public TransData<IList<string>> QueryApplicationOfAppLog([FromBody]QueryParamDto dto)
+        {
+            var result = new TransData<IList<string>>();
+            result.Data = null;
+
+            if (dto == null)
+            {
+                return Response<IList<string>>(null, "Parameter is null", (int)ServiceResultCode.ParameterError);
+            }
+
+            try
+            {
+                using (ICacheProvider cacheObj = CacheFactory.Instance.GetClient())
+                {
+                    var hs = cacheObj.GetAllItemsFromSet(CacheAppLogSet.Application);
+                    if (hs != null)
+                    {
+                        result.Data = hs.Where(x => x.Contains(dto.StrParam)).ToList();
+                    }
+                }
+                result.Code = (int)ServiceResultCode.Succeeded;
+            }
+            catch (Exception e)
+            {
+                result.Data = null;
+                result.Message = "服务异常！";
+                result.Code = (int)ServiceResultCode.UndefinedError;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 模糊查找Tag名称序列
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [Route("QueryTagsOfAppLog")]
+        [HttpPost]
+        [SnakeBasicAuthorize]
+        public TransData<IList<string>> QueryTagsOfAppLog([FromBody]QueryParamDto dto)
+        {
+            var result = new TransData<IList<string>>();
+            result.Data = null;
+
+            if (dto == null)
+            {
+                return Response<IList<string>>(null, "Parameter is null", (int)ServiceResultCode.ParameterError);
+            }
+
+            try
+            {
+                using (ICacheProvider cacheObj = CacheFactory.Instance.GetClient())
+                {
+                    var hs = cacheObj.GetAllItemsFromSet(CacheAppLogSet.Tags);
+                    if (hs != null)
+                    {
+                        result.Data = hs.Where(x => x.Contains(dto.StrParam)).ToList();
+                    }
+                }
+                result.Code = (int)ServiceResultCode.Succeeded;
+            }
+            catch (Exception e)
+            {
+                result.Data = null;
+                result.Message = "服务异常！";
                 result.Code = (int)ServiceResultCode.UndefinedError;
             }
             return result;

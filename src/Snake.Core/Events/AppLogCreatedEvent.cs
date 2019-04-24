@@ -1,4 +1,5 @@
-﻿using Snake.Core.Models;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using Snake.Core.Models;
 using Snake.Core.Mongo;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace Snake.Core.Events
     {
         public string Guid { get; set; }
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         private DateTime _cTime;
         /// <summary>
         /// 日志生成时间

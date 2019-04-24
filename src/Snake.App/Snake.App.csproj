@@ -47,8 +47,14 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Mvvm.v18.1">
-      <HintPath>..\..\packages\Mvvm\DevExpress.Mvvm.v18.1.dll</HintPath>
+    <Reference Include="DevExpress.Data.v13.1">
+      <HintPath>..\..\packages\Mvvm\DevExpress.Data.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Core.v13.1">
+      <HintPath>..\..\packages\Mvvm\DevExpress.Xpf.Core.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Mvvm.v13.1">
+      <HintPath>..\..\packages\Mvvm\DevExpress.Xpf.Mvvm.v13.1.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
@@ -95,6 +101,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\Mvvm\ViewModelStatus.cs" />
     <Compile Include="Module\Views\TrackLogQueryView.xaml.cs">
       <DependentUpon>TrackLogQueryView.xaml</DependentUpon>
     </Compile>

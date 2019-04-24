@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Snake.Client.WebApi
 {
@@ -210,6 +211,12 @@ namespace Snake.Client.WebApi
             var action = "GetAppLogsPage";
             return DoPost<T>(SNAKE_WEBAPI_TRACKLOG_CONTROLLER, action, paramDic);
         }
+
+        public Task<Tuple<bool, T>> GetAppLogsPageAsync<T>(PageAppLog appLog)
+        {
+            return Task.Run(() => GetAppLogsPage<T>(appLog));
+        }
+
 
         public Tuple<bool, T> QueryApplicationOfAppLog<T>(QueryParamDto dto)
         {

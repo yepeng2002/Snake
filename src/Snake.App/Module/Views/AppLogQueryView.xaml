@@ -5,31 +5,44 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:SnakeViews="clr-namespace:Snake.App.Module.Views"
              xmlns:SnakeViewModels="clr-namespace:Snake.App.Module.ViewModels"
              d:DataContext="{d:DesignInstance SnakeViewModels:AppLogViewModel}"
              xmlns:local="clr-namespace:Snake.App.Module.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="1200">
 
     <UserControl.Resources>
         <Thickness x:Key="ControlMargin">0 2 2 0</Thickness>
     </UserControl.Resources>
+
+    <dxmvvm:Interaction.Triggers>
+        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding OnViewLoadedCommand}" />
+    </dxmvvm:Interaction.Triggers>
     
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
             <TextBlock Margin="2" VerticalAlignment="Center" Text="Limit" />
-            <Controls:NumericUpDown Width="100" Margin="2" VerticalAlignment="Center" Maximum="40" Minimum="0"
-                                    Value="{Binding RowHeaderWidth, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Width="26" Height="16" Margin="2">
+            <Controls:NumericUpDown Width="100" Margin="2" VerticalAlignment="Center" Maximum="4000" Minimum="0"
+                                    Value="{Binding PageAppLog.PageSize}" />
+            <Button Width="26" Height="16" Margin="2" Command="{Binding OnQueryNextPageCommand}">
                 <iconPacks:FontAwesome Width="12" Height="12" Kind="AngleDoubleRightSolid" />
             </Button>
+
+            <TextBlock Margin="2" VerticalAlignment="Center" Text="时间：" />
+            <Controls:DateTimePicker Controls:TextBoxHelper.UseFloatingWatermark="True" HandVisibility="All" IsClockVisible="True"
+                                     Orientation="Horizontal" PickerVisibility="All" SelectedDateFormat="Short" SelectedTimeFormat="Long" 
+                                     SelectedDate="{Binding PageAppLog.CTime}" />
+            <TextBlock Margin="2" VerticalAlignment="Center" Text=" - " />
+            <Controls:DateTimePicker Controls:TextBoxHelper.UseFloatingWatermark="True" HandVisibility="All" IsClockVisible="True"
+                                     Orientation="Horizontal" PickerVisibility="All" SelectedDateFormat="Short" SelectedTimeFormat="Long" 
+                                     SelectedDate="{Binding PageAppLog.CTimeEnd}"/>
             <TextBlock Margin="2" VerticalAlignment="Center" Text="应用名" />
             <ComboBox Width="100" Margin="2" VerticalAlignment="Center"
                       ItemsSource="{Binding Appications}"
@@ -38,20 +51,26 @@
             <ComboBox Width="100" Margin="2" VerticalAlignment="Center"
                       ItemsSource="{Binding Appications}"
                       SelectedValue="{Binding HeadersVisibility}" />
-            <Button Width="60" Margin="2" Content="查  询" FontSize="12" />
+            <Button Width="60" Margin="2" Content="查  询" FontSize="12" Command="{Binding OnQueryCommand}"/>
         </StackPanel>
         
         <DataGrid x:Name="AzureDataGrid"
                   Grid.Row="1"
                   Margin="5"
                   AutoGenerateColumns="False"
-                  ItemsSource="{Binding Path=Albums}"
+                  ItemsSource="{Binding Path=AppLogs}"
                   RowHeaderWidth="0"
+                  IsReadOnly="True"
                   Style="{DynamicResource AzureDataGrid}">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Title}" Header="Title" />
-                <DataGridTextColumn Binding="{Binding Artist.Name}" Header="Artist" />
-                <DataGridTextColumn Binding="{Binding Genre.Name}" Header="Genre" />
+                <DataGridTextColumn Binding="{Binding CTime}" Header="时间" />
+                <DataGridTextColumn Binding="{Binding Application}" Header="应用" />
+                <DataGridTextColumn Binding="{Binding AppPath}" Header="路径" />
+                <DataGridTextColumn Binding="{Binding IPv4}" Header="IP" />
+                <DataGridTextColumn Binding="{Binding Machine}" Header="机器名" />
+                <DataGridTextColumn Binding="{Binding LogCategory}" Header="日志类别" />
+                <DataGridTextColumn Binding="{Binding Level}" Header="级别" />
+                <DataGridTextColumn Binding="{Binding Message}" Header="日志消息内容" Width="400" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

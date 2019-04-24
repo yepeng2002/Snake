@@ -37,5 +37,23 @@ namespace Snake.Core.Models
         /// 每页记录条数
         /// </summary>
         public int PageSize { get; set; }
+
+        private DateTime _cTimeEnd;
+        /// <summary>
+        /// 日志生成时间
+        /// </summary>
+        public DateTime CTimeEnd
+        {
+            get { return _cTimeEnd; }
+            set
+            {
+                if (value == _cTimeEnd)
+                {
+                    return;
+                }
+                _cTimeEnd = value;
+                this.NotifyPropertyChanged(() => this.CTimeEnd);
+            }
+        }
     }
 }

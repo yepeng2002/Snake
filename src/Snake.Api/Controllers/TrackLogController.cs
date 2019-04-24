@@ -101,7 +101,7 @@ namespace Snake.Api.Controllers
             {
                 return Response<IList<AppLog>>(null, "Page param is null", (int)ServiceResultCode.ParameterError);
             }
-            if (pageAppLog.CTime == null)
+            if (pageAppLog.CTime == null || pageAppLog.CTimeEnd == null)
             {
                 return Response<IList<AppLog>>(null, "CTime is null", (int)ServiceResultCode.ParameterError);
             }
@@ -111,6 +111,8 @@ namespace Snake.Api.Controllers
                 var repository = MongoRepository<AppLog>.Instance;
                 var list = new List<FilterDefinition<AppLog>>();
                 list.Add(Builders<AppLog>.Filter.Gt(x => x.CTime, pageAppLog.CTime));
+                list.Add(Builders<AppLog>.Filter.Lt(x => x.CTime, pageAppLog.CTimeEnd));
+
                 if (!string.IsNullOrEmpty(pageAppLog.Application))
                 {
                     list.Add(Builders<AppLog>.Filter.Eq(x => x.Application, pageAppLog.Application));

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Snake.App.Module.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace Snake.App.Module.Views
         public AppLogQueryView()
         {
             InitializeComponent();
+            this.DataContext = new AppLogViewModel();
         }
     }
 }

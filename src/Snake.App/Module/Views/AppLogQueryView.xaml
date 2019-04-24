@@ -29,7 +29,7 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <TextBlock Margin="2" VerticalAlignment="Center" Text="Limit" />
-            <Controls:NumericUpDown Width="100" Margin="2" VerticalAlignment="Center" Maximum="4000" Minimum="0"
+            <Controls:NumericUpDown Width="100" Margin="2" VerticalAlignment="Center" Maximum="50000" Minimum="0"
                                     Value="{Binding PageAppLog.PageSize}" />
             <Button Width="26" Height="16" Margin="2" Command="{Binding OnQueryNextPageCommand}">
                 <iconPacks:FontAwesome Width="12" Height="12" Kind="AngleDoubleRightSolid" />

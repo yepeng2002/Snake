@@ -16,7 +16,7 @@ namespace Snake.Core.Events
         public TrackLogCreatedEvent()
         {
             GUID = Guid.NewGuid();
-            CreateTime = DateTime.Now;
+            CreateTime = DateTime.Now.AddHours(8);
             ResponseApplication = DefaultApplicationName;
             ResponseMachine = DefaultMachineName;
         }

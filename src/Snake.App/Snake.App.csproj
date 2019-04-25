@@ -101,6 +101,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\DataGrids\MultiDataGrid.cs" />
     <Compile Include="Controls\Mvvm\ViewModelStatus.cs" />
     <Compile Include="Module\Views\TrackLogQueryView.xaml.cs">
       <DependentUpon>TrackLogQueryView.xaml</DependentUpon>

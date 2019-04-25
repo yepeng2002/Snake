@@ -10,6 +10,7 @@
              xmlns:SnakeViewModels="clr-namespace:Snake.App.Module.ViewModels"
              d:DataContext="{d:DesignInstance SnakeViewModels:AppLogViewModel}"
              xmlns:local="clr-namespace:Snake.App.Module.Views"
+             xmlns:datagrids="clr-namespace:Snake.App.Controls.DataGrids"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1200">
 
@@ -35,7 +36,7 @@
                 <iconPacks:FontAwesome Width="12" Height="12" Kind="AngleDoubleRightSolid" />
             </Button>
 
-            <TextBlock Margin="2" VerticalAlignment="Center" Text="时间：" />
+            <TextBlock Margin="10,2,2,2" VerticalAlignment="Center" Text="时间：" />
             <Controls:DateTimePicker Controls:TextBoxHelper.UseFloatingWatermark="True" HandVisibility="All" IsClockVisible="True"
                                      Orientation="Horizontal" PickerVisibility="All" SelectedDateFormat="Short" SelectedTimeFormat="Long" 
                                      SelectedDate="{Binding PageAppLog.CTime}" />
@@ -43,6 +44,19 @@
             <Controls:DateTimePicker Controls:TextBoxHelper.UseFloatingWatermark="True" HandVisibility="All" IsClockVisible="True"
                                      Orientation="Horizontal" PickerVisibility="All" SelectedDateFormat="Short" SelectedTimeFormat="Long" 
                                      SelectedDate="{Binding PageAppLog.CTimeEnd}"/>
+            <TextBlock Margin="2" VerticalAlignment="Center" Text="日志类别" />
+            <ComboBox Width="120" Margin="2" VerticalAlignment="Center"
+                          Controls:TextBoxHelper.ClearTextButton="True"
+                          Controls:TextBoxHelper.Watermark="Please select an item..."
+                          ItemsSource="{Binding Path=LogCategorys}"
+                          SelectedItem="{Binding PageAppLog.LogCategory}" >
+            </ComboBox>
+            <TextBlock Margin="2" VerticalAlignment="Center" Text="级别" />
+            <ComboBox Width="80" Margin="2" VerticalAlignment="Center"
+                          Controls:TextBoxHelper.ClearTextButton="True"
+                          ItemsSource="{Binding Path=Levels}"
+                          SelectedItem="{Binding Level}" >
+            </ComboBox>
             <TextBlock Margin="2" VerticalAlignment="Center" Text="应用名" />
             <ComboBox Width="100" Margin="2" VerticalAlignment="Center"
                       ItemsSource="{Binding Appications}"
@@ -53,25 +67,37 @@
                       SelectedValue="{Binding HeadersVisibility}" />
             <Button Width="60" Margin="2" Content="查  询" FontSize="12" Command="{Binding OnQueryCommand}"/>
         </StackPanel>
-        
-        <DataGrid x:Name="AzureDataGrid"
-                  Grid.Row="1"
-                  Margin="5"
-                  AutoGenerateColumns="False"
-                  ItemsSource="{Binding Path=AppLogs}"
-                  RowHeaderWidth="0"
-                  IsReadOnly="True"
-                  Style="{DynamicResource AzureDataGrid}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding CTime}" Header="时间" />
-                <DataGridTextColumn Binding="{Binding Application}" Header="应用" />
-                <DataGridTextColumn Binding="{Binding AppPath}" Header="路径" />
-                <DataGridTextColumn Binding="{Binding IPv4}" Header="IP" />
-                <DataGridTextColumn Binding="{Binding Machine}" Header="机器名" />
-                <DataGridTextColumn Binding="{Binding LogCategory}" Header="日志类别" />
-                <DataGridTextColumn Binding="{Binding Level}" Header="级别" />
-                <DataGridTextColumn Binding="{Binding Message}" Header="日志消息内容" Width="400" />
-            </DataGrid.Columns>
-        </DataGrid>
+
+
+        <Grid Name="gridMain" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <datagrids:MultiDataGrid x:Name="AzureDataGrid"
+                          Grid.Column="0"
+                          Margin="5"
+                          AutoGenerateColumns="False"
+                          ItemsSource="{Binding Path=AppLogs}"
+                          RowHeaderWidth="0"
+                          IsReadOnly="True"
+                          Style="{DynamicResource AzureDataGrid}"
+                          SelectedItemsList="{Binding Path=SelectedApplogs, Mode=TwoWay}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding CTime}" Header="时间" />
+                    <DataGridTextColumn Binding="{Binding Application}" Header="应用" />
+                    <DataGridTextColumn Binding="{Binding AppPath}" Header="路径" />
+                    <DataGridTextColumn Binding="{Binding IPv4}" Header="IP" />
+                    <DataGridTextColumn Binding="{Binding Machine}" Header="机器名" />
+                    <DataGridTextColumn Binding="{Binding LogCategory}" Header="日志类别" />
+                    <DataGridTextColumn Binding="{Binding Level}" Header="级别" />
+                    <DataGridTextColumn Binding="{Binding Message}" Header="日志消息内容" Width="400" />
+                </DataGrid.Columns>
+            </datagrids:MultiDataGrid>
+            <GridSplitter Width="5"></GridSplitter>
+            <TextBox Name="Tb1" Grid.Column="1" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" 
+                     IsReadOnly="True"
+                     Text="{Binding Messages}" />
+        </Grid>
     </Grid>
 </UserControl>

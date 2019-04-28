@@ -18,6 +18,8 @@ namespace Snake.ApiTrackService.Consumers
                 {
                     var repository = MongoRepository<TrackLog>.Instance;
                     TrackLog trackLog = MapperProvider.MapTo<TrackLog>(context.Message);
+                    trackLog.CreateTime = trackLog.CreateTime.AddHours(8); // UTC时间转换
+                    trackLog.RequestTime = trackLog.RequestTime.AddHours(8); // UTC时间转换
                     var obj = repository.Add(trackLog);
                 }
                 Console.WriteLine($"Recevied By TrackLogCreatedEventConsumer:{context.Message.GUID}");

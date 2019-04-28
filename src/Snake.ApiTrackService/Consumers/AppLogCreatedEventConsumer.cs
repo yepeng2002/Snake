@@ -25,6 +25,7 @@ namespace Snake.ApiTrackService.Consumers
                     {
                         var repository = MongoRepository<AppLog>.Instance;
                         AppLog appLog = MapperProvider.MapTo<AppLog>(context.Message);
+                        appLog.CTime = appLog.CTime.AddHours(8); // UTC时间转换
                         var obj = repository.Add(appLog);
                         //保存应用名和标签到缓存集合
                         using (ICacheProvider cacheObj = CacheFactory.Instance.GetClient())

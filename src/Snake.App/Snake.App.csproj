@@ -56,6 +56,12 @@
     <Reference Include="DevExpress.Xpf.Mvvm.v13.1">
       <HintPath>..\..\packages\Mvvm\DevExpress.Xpf.Mvvm.v13.1.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit">
+      <HintPath>..\..\packages\ICSharpCode\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\packages\ICSharpCode\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -102,11 +108,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\DataGrids\MultiDataGrid.cs" />
+    <Compile Include="Controls\LineNumTextEditor.cs" />
+    <Compile Include="Controls\MultiSelectComboBox.xaml.cs">
+      <DependentUpon>MultiSelectComboBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Mvvm\ViewModelStatus.cs" />
     <Compile Include="Module\Views\TrackLogQueryView.xaml.cs">
       <DependentUpon>TrackLogQueryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\TaskEx.cs" />
+    <Page Include="Controls\MultiSelectComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -167,6 +181,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
+    <Folder Include="Controls\Behaviours\" />
+    <Folder Include="Controls\Converters\" />
+    <Folder Include="Controls\Helper\" />
     <Folder Include="Resources\Dictionary\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Service\" />

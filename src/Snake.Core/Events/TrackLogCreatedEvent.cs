@@ -16,14 +16,14 @@ namespace Snake.Core.Events
         public TrackLogCreatedEvent()
         {
             GUID = Guid.NewGuid();
-            CreateTime = DateTime.Now.AddHours(8);
+            CreateTime = DateTime.Now;
             ResponseApplication = DefaultApplicationName;
             ResponseMachine = DefaultMachineName;
         }
 
         #region private set
         public Guid GUID { get; private set; }
-        public DateTime CreateTime { get; private set; }
+        public DateTime CreateTime { get; set; }
         #endregion
 
         public string RequestIP { get; set; }

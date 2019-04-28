@@ -703,6 +703,18 @@
             </summary>
             <param name="path">公钥路径</param>
         </member>
+        <member name="T:Snake.Core.Util.HttpRequestMessageExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Snake.Core.Util.HttpRequestMessageExtensions.GetClientIpAddress(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
         <member name="M:Snake.Core.Util.HttpRequestMessageExtensions.IsIPAddress(System.String)">
              <summary>
              判断是否是IP地址格式  0.0.0.0

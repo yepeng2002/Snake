@@ -11,6 +11,8 @@
              d:DataContext="{d:DesignInstance SnakeViewModels:AppLogViewModel}"
              xmlns:local="clr-namespace:Snake.App.Module.Views"
              xmlns:datagrids="clr-namespace:Snake.App.Controls.DataGrids"
+             xmlns:control="clr-namespace:Snake.App.Controls"
+             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1200">
 
@@ -32,16 +34,17 @@
             <TextBlock Margin="2" VerticalAlignment="Center" Text="Limit" />
             <Controls:NumericUpDown Width="100" Margin="2" VerticalAlignment="Center" Maximum="50000" Minimum="0"
                                     Value="{Binding PageAppLog.PageSize}" />
-            <Button Width="26" Height="16" Margin="2" Command="{Binding OnQueryNextPageCommand}">
+            <Button Width="26" Height="16" Margin="2" ToolTip="加载下一页"
+                    Command="{Binding OnQueryNextPageCommand}">
                 <iconPacks:FontAwesome Width="12" Height="12" Kind="AngleDoubleRightSolid" />
             </Button>
 
             <TextBlock Margin="10,2,2,2" VerticalAlignment="Center" Text="时间：" />
-            <Controls:DateTimePicker Controls:TextBoxHelper.UseFloatingWatermark="True" HandVisibility="All" IsClockVisible="True"
+            <Controls:DateTimePicker Controls:TextBoxHelper.UseFloatingWatermark="False" HandVisibility="All" IsClockVisible="True"
                                      Orientation="Horizontal" PickerVisibility="All" SelectedDateFormat="Short" SelectedTimeFormat="Long" 
                                      SelectedDate="{Binding PageAppLog.CTime}" />
             <TextBlock Margin="2" VerticalAlignment="Center" Text=" - " />
-            <Controls:DateTimePicker Controls:TextBoxHelper.UseFloatingWatermark="True" HandVisibility="All" IsClockVisible="True"
+            <Controls:DateTimePicker Controls:TextBoxHelper.UseFloatingWatermark="False" HandVisibility="All" IsClockVisible="True"
                                      Orientation="Horizontal" PickerVisibility="All" SelectedDateFormat="Short" SelectedTimeFormat="Long" 
                                      SelectedDate="{Binding PageAppLog.CTimeEnd}"/>
             <TextBlock Margin="2" VerticalAlignment="Center" Text="日志类别" />
@@ -62,6 +65,8 @@
                       ItemsSource="{Binding Appications}"
                       SelectedValue="{Binding HeadersVisibility}" />
             <TextBlock Margin="2" VerticalAlignment="Center" Text="标签" />
+            <control:MultiSelectComboBox Width="100" Height="30" 
+                                         ItemsSource="{Binding Appications}" SelectedItems="{Binding SelectedItems}"/>
             <ComboBox Width="100" Margin="2" VerticalAlignment="Center"
                       ItemsSource="{Binding Appications}"
                       SelectedValue="{Binding HeadersVisibility}" />
@@ -95,9 +100,9 @@
                 </DataGrid.Columns>
             </datagrids:MultiDataGrid>
             <GridSplitter Width="5"></GridSplitter>
-            <TextBox Name="Tb1" Grid.Column="1" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" 
-                     IsReadOnly="True"
-                     Text="{Binding Messages}" />
+            <control:LineNumTextEditor Grid.Column="1" VerticalScrollBarVisibility="Visible" 
+                                   IsReadOnly="True" WordWrap="True" ShowLineNumbers="True" 
+                                   LineNumText="{Binding Messages, Mode=TwoWay}" />
         </Grid>
     </Grid>
 </UserControl>

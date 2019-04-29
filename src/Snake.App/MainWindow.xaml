@@ -321,9 +321,9 @@
 
         </Border>
         <StatusBar Grid.Row="2">
-            <StatusBarItem>Snake Log Demo Application</StatusBarItem>
+            <StatusBarItem>Snake Log Application</StatusBarItem>
             <Separator Style="{StaticResource MetroStatusBarSeparator}" />
-            <StatusBarItem>Redy</StatusBarItem>
+            <StatusBarItem Content="{Binding StatusContent}"></StatusBarItem>
             <StatusBarItem Content="{Binding ElementName=MainTabControl, Path=SelectedItem.Header, Mode=OneWay}" />
         </StatusBar>
 

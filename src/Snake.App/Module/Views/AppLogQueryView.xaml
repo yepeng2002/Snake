@@ -67,9 +67,6 @@
             <TextBlock Margin="2" VerticalAlignment="Center" Text="标签" />
             <control:MultiSelectComboBox Width="100" Height="30" 
                                          ItemsSource="{Binding Appications}" SelectedItems="{Binding SelectedItems}"/>
-            <ComboBox Width="100" Margin="2" VerticalAlignment="Center"
-                      ItemsSource="{Binding Appications}"
-                      SelectedValue="{Binding HeadersVisibility}" />
             <Button Width="60" Margin="2" Content="查  询" FontSize="12" Command="{Binding OnQueryCommand}"/>
         </StackPanel>
 

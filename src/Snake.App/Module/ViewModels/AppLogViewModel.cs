@@ -1,13 +1,16 @@
 ﻿using DevExpress.Xpf.Mvvm;
 using Snake.App.Controls.Mvvm;
+using Snake.App.Module.Models;
 using Snake.Client.WebApi;
 using Snake.Core.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -39,12 +42,17 @@ namespace Snake.App.Module.ViewModels
 
         private async void QueryAppLogsAsync()
         {
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
             SnakeWebApiHttpProxy proxy = new SnakeWebApiHttpProxy();
             var result = await proxy.GetAppLogsPageAsync<IList<AppLog>>(this.PageAppLog);
+            stopWatch.Stop();
             if (result.Item1 && result.Item2 != null)
                 AppLogs = new ObservableCollection<AppLog>(result.Item2);
             else
                 AppLogs = null;
+            string log = string.Format("AppLog数据：{0}条  查询用时：{1} ms.", AppLogs == null ? 0 : AppLogs.Count, stopWatch.Elapsed.TotalMilliseconds.ToString("0."));
+            Messenger.Default.Send(new StatusUpdateMessage(log));
         }
 
         #endregion
@@ -94,13 +102,18 @@ namespace Snake.App.Module.ViewModels
             Status = ViewModelStatus.Loading;
             try
             {
+                var stopWatch = new Stopwatch();
+                stopWatch.Start();
                 SnakeWebApiHttpProxy proxy = new SnakeWebApiHttpProxy();
                 var result = await proxy.GetAppLogsPageAsync<IList<AppLog>>(this.PageAppLog);
+                stopWatch.Stop();
                 if (result.Item1 && result.Item2 != null)
                 {
                     var list = AppLogs.Union<AppLog>(result.Item2).ToList<AppLog>();
                     AppLogs = new ObservableCollection<AppLog>(list);
                 }
+                string log = string.Format("AppLog数据：{0}条  用时：{1} ms.", AppLogs == null ? 0 : AppLogs.Count, stopWatch.Elapsed.TotalMilliseconds.ToString("0."));
+                Messenger.Default.Send(new StatusUpdateMessage(log));
             }
             finally
             {

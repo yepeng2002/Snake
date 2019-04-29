@@ -17,6 +17,7 @@ using Snake.App.Module.Models;
 using System.Windows.Controls;
 using Snake.App.Utilities;
 using System.Threading;
+using DevExpress.Xpf.Mvvm;
 
 namespace Snake.App
 {
@@ -86,12 +87,51 @@ namespace Snake.App
             {
                 System.Diagnostics.Trace.TraceWarning("Uups, the hotkey {0} is already registered!", exception.Name);
             }
+
+            //注册主界面事件
+            Messenger.Default.Register<StatusUpdateMessage>(this, OnStatusUpdateMessage);
         }
 
         public void Dispose()
         {
             HotkeyManager.Current.Remove("demo");
+            Messenger.Default.Unregister<StatusUpdateMessage>(this, OnStatusUpdateMessage);
         }
+
+        private void OnStatusUpdateMessage(StatusUpdateMessage statusUpdateMessage)
+        {
+            StatusContent = statusUpdateMessage.Message;
+        }
+
+        #region IDataErrorInfo
+
+        public string this[string columnName]
+        {
+            get
+            {
+                if (columnName == "IntegerGreater10Property" && this.IntegerGreater10Property < 10)
+                {
+                    return "Number is not greater than 10!";
+                }
+
+                if (columnName == "DatePickerDate" && this.DatePickerDate == null)
+                {
+                    return "No date given!";
+                }
+
+                if (columnName == "HotKey" && this.HotKey != null && this.HotKey.Key == Key.D && this.HotKey.ModifierKeys == ModifierKeys.Shift)
+                {
+                    return "SHIFT-D is not allowed";
+                }
+
+                return null;
+            }
+        }
+
+        [Description("Test-Property")]
+        public string Error { get { return string.Empty; } }
+
+        #endregion
 
         public string Title { get; set; }
         public int SelectedIndex { get; set; }
@@ -125,7 +165,6 @@ namespace Snake.App
                 {
                     return;
                 }
-
                 _datePickerDate = value;
                 RaisePropertyChanged("DatePickerDate");
             }
@@ -155,114 +194,19 @@ namespace Snake.App
             }
         }
 
-        private bool canCloseFlyout = true;
+        private string _statusContent = "Ready";
 
-        public bool CanCloseFlyout
+        public string StatusContent
         {
-            get { return this.canCloseFlyout; }
+            get { return this._statusContent; }
             set
             {
-                if (Equals(value, this.canCloseFlyout))
+                if (Equals(value, this._statusContent))
                 {
                     return;
                 }
-                this.canCloseFlyout = value;
-                this.RaisePropertyChanged("CanCloseFlyout");
-            }
-        }
-
-        private ICommand closeCmd;
-
-        public ICommand CloseCmd
-        {
-            get
-            {
-                return this.closeCmd ?? (this.closeCmd = new SimpleCommand
-                {
-                    CanExecuteDelegate = x => this.CanCloseFlyout,
-                    ExecuteDelegate = x => ((Flyout)x).IsOpen = false
-                });
-            }
-        }
-
-        private bool canShowHamburgerAboutCommand = true;
-
-        public bool CanShowHamburgerAboutCommand
-        {
-            get { return this.canShowHamburgerAboutCommand; }
-            set
-            {
-                if (Equals(value, this.canShowHamburgerAboutCommand))
-                {
-                    return;
-                }
-                this.canShowHamburgerAboutCommand = value;
-                this.RaisePropertyChanged("CanShowHamburgerAboutCommand");
-            }
-        }
-
-        private bool isHamburgerMenuPaneOpen;
-
-        public bool IsHamburgerMenuPaneOpen
-        {
-            get { return this.isHamburgerMenuPaneOpen; }
-            set
-            {
-                if (Equals(value, this.isHamburgerMenuPaneOpen))
-                {
-                    return;
-                }
-                this.isHamburgerMenuPaneOpen = value;
-                this.RaisePropertyChanged("IsHamburgerMenuPaneOpen");
-            }
-        }
-
-        private ICommand textBoxButtonCmd;
-
-        public ICommand TextBoxButtonCmd
-        {
-            get
-            {
-                return this.textBoxButtonCmd ?? (this.textBoxButtonCmd = new SimpleCommand
-                {
-                    CanExecuteDelegate = x => true,
-                    ExecuteDelegate = async x =>
-                    {
-                        if (x is string)
-                        {
-                            await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Wow, you typed Return and got", (string)x);
-                        }
-                        else if (x is TextBox)
-                        {
-                            await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("TextBox Button was clicked!", string.Format("Text: {0}", ((TextBox)x).Text));
-                        }
-                        else if (x is PasswordBox)
-                        {
-                            await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("PasswordBox Button was clicked!", string.Format("Password: {0}", ((PasswordBox)x).Password));
-                        }
-                    }
-                });
-            }
-        }
-
-        private ICommand textBoxButtonCmdWithParameter;
-
-        public ICommand TextBoxButtonCmdWithParameter
-        {
-            get
-            {
-                return this.textBoxButtonCmdWithParameter ?? (this.textBoxButtonCmdWithParameter = new SimpleCommand
-                {
-                    CanExecuteDelegate = x => true,
-                    ExecuteDelegate = async x =>
-                    {
-                        if (x is String)
-                        {
-                            await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("TextBox Button with parameter was clicked!",
-                                                                                                  string.Format("Parameter: {0}", x));
-                        }
-                    }
-                });
+                this._statusContent = value;
+                this.RaisePropertyChanged("StatusContent");
             }
         }
 
@@ -279,168 +223,9 @@ namespace Snake.App
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
-        public string this[string columnName]
-        {
-            get
-            {
-                if (columnName == "IntegerGreater10Property" && this.IntegerGreater10Property < 10)
-                {
-                    return "Number is not greater than 10!";
-                }
-
-                if (columnName == "DatePickerDate" && this.DatePickerDate == null)
-                {
-                    return "No date given!";
-                }
-
-                if (columnName == "HotKey" && this.HotKey != null && this.HotKey.Key == Key.D && this.HotKey.ModifierKeys == ModifierKeys.Shift)
-                {
-                    return "SHIFT-D is not allowed";
-                }
-
-                return null;
-            }
-        }
-
-        [Description("Test-Property")]
-        public string Error { get { return string.Empty; } }
-
-        private ICommand singleCloseTabCommand;
-
-        public ICommand SingleCloseTabCommand
-        {
-            get
-            {
-                return this.singleCloseTabCommand ?? (this.singleCloseTabCommand = new SimpleCommand
-                {
-                    CanExecuteDelegate = x => true,
-                    ExecuteDelegate = async x =>
-                    {
-                        await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Closing tab!", string.Format("You are now closing the '{0}' tab", x));
-                    }
-                });
-            }
-        }
-
-        private ICommand neverCloseTabCommand;
-
-        public ICommand NeverCloseTabCommand
-        {
-            get { return this.neverCloseTabCommand ?? (this.neverCloseTabCommand = new SimpleCommand { CanExecuteDelegate = x => false }); }
-        }
-
-
-        private ICommand showInputDialogCommand;
-
-        public ICommand ShowInputDialogCommand
-        {
-            get
-            {
-                return this.showInputDialogCommand ?? (this.showInputDialogCommand = new SimpleCommand
-                {
-                    CanExecuteDelegate = x => true,
-                    ExecuteDelegate = async x =>
-                    {
-                        await _dialogCoordinator.ShowInputAsync(this, "From a VM", "This dialog was shown from a VM, without knowledge of Window").ContinueWith(t => Console.WriteLine(t.Result));
-                    }
-                });
-            }
-        }
-
-        private ICommand showLoginDialogCommand;
-
-        public ICommand ShowLoginDialogCommand
-        {
-            get
-            {
-                return this.showLoginDialogCommand ?? (this.showLoginDialogCommand = new SimpleCommand
-                {
-                    CanExecuteDelegate = x => true,
-                    ExecuteDelegate = async x =>
-                    {
-                        await _dialogCoordinator.ShowLoginAsync(this, "Login from a VM", "This login dialog was shown from a VM, so you can be all MVVM.").ContinueWith(t => Console.WriteLine(t.Result));
-                    }
-                });
-            }
-        }
-
-        private ICommand showMessageDialogCommand;
-
-        public ICommand ShowMessageDialogCommand
-        {
-            get
-            {
-                return this.showMessageDialogCommand ?? (this.showMessageDialogCommand = new SimpleCommand
-                {
-                    CanExecuteDelegate = x => true,
-                    ExecuteDelegate = x => PerformDialogCoordinatorAction(this.ShowMessage((string)x), (string)x == "DISPATCHER_THREAD")
-                });
-            }
-        }
-
-        private Action ShowMessage(string startingThread)
-        {
-            return () =>
-            {
-                var message = $"MVVM based messages!\n\nThis dialog was created by {startingThread} Thread with ID=\"{Thread.CurrentThread.ManagedThreadId}\"\n" +
-                              $"The current DISPATCHER_THREAD Thread has the ID=\"{Application.Current.Dispatcher.Thread.ManagedThreadId}\"";
-                this._dialogCoordinator.ShowMessageAsync(this, $"Message from VM created by {startingThread}", message).ContinueWith(t => Console.WriteLine(t.Result));
-            };
-        }
-
-        private ICommand showProgressDialogCommand;
-
-        public ICommand ShowProgressDialogCommand
-        {
-            get
-            {
-                return this.showProgressDialogCommand ?? (this.showProgressDialogCommand = new SimpleCommand
-                {
-                    CanExecuteDelegate = x => true,
-                    ExecuteDelegate = x => RunProgressFromVm()
-                });
-            }
-        }
-
-        private async void RunProgressFromVm()
-        {
-            var controller = await _dialogCoordinator.ShowProgressAsync(this, "Progress from VM", "Progressing all the things, wait 3 seconds");
-            controller.SetIndeterminate();
-
-            await TaskEx.Delay(3000);
-
-            await controller.CloseAsync();
-        }
-
-        private static void PerformDialogCoordinatorAction(Action action, bool runInMainThread)
-        {
-            if (!runInMainThread)
-            {
-                Task.Factory.StartNew(action);
-            }
-            else
-            {
-                action();
-            }
-        }
         
         public IEnumerable<string> BrushResources { get; private set; }
-
-        public bool AnimateOnPositionChange
-        {
-            get
-            {
-                return _animateOnPositionChange;
-            }
-            set
-            {
-                if (Equals(_animateOnPositionChange, value)) return;
-                _animateOnPositionChange = value;
-                RaisePropertyChanged("AnimateOnPositionChange");
-            }
-        }
-
+        
         private IEnumerable<string> FindBrushResources()
         {
             var rd = new ResourceDictionary
@@ -524,9 +309,5 @@ namespace Snake.App
             RaisePropertyChanged("IsScaleDownLargerFrame");
             RaisePropertyChanged("IsNoScaleSmallerFrame");
         }
-
-        public bool IsScaleDownLargerFrame { get { return ((MetroWindow)Application.Current.MainWindow).IconScalingMode == MultiFrameImageMode.ScaleDownLargerFrame; } }
-
-        public bool IsNoScaleSmallerFrame { get { return ((MetroWindow)Application.Current.MainWindow).IconScalingMode == MultiFrameImageMode.NoScaleSmallerFrame; } }
     }
 }

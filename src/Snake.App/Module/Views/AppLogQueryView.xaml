@@ -13,11 +13,28 @@
              xmlns:datagrids="clr-namespace:Snake.App.Controls.DataGrids"
              xmlns:control="clr-namespace:Snake.App.Controls"
              xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:converter="clr-namespace:Snake.App.Module.Converter"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1200">
+             d:DesignHeight="450" d:DesignWidth="1600">
 
     <UserControl.Resources>
-        <Thickness x:Key="ControlMargin">0 2 2 0</Thickness>
+        <ResourceDictionary>
+            <converter:Tags2StringConverter x:Key="Tags2StringConverter" />
+            <Thickness x:Key="ControlMargin">0 2 2 0</Thickness>
+            <Style x:Key="AccentCircleButtonStyle"
+                           BasedOn="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
+                           TargetType="{x:Type ButtonBase}">
+                <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}" />
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Foreground" Value="{DynamicResource GrayBrush7}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>        
     </UserControl.Resources>
 
     <dxmvvm:Interaction.Triggers>
@@ -60,13 +77,28 @@
                           ItemsSource="{Binding Path=Levels}"
                           SelectedItem="{Binding Level}" >
             </ComboBox>
+            <TextBox Width="120" Margin="2"
+                         HorizontalContentAlignment="Stretch"
+                         Controls:TextBoxHelper.ClearTextButton="True"
+                         Controls:TextBoxHelper.Watermark="请输入IP"
+                         Controls:TextBoxHelper.WatermarkAlignment="Right"
+                         SpellCheck.IsEnabled="True" 
+                        Text="{Binding PageAppLog.IPv4}">
+            </TextBox>
             <TextBlock Margin="2" VerticalAlignment="Center" Text="应用名" />
-            <ComboBox Width="100" Margin="2" VerticalAlignment="Center"
-                      ItemsSource="{Binding Appications}"
-                      SelectedValue="{Binding HeadersVisibility}" />
+            <ComboBox Width="140" Margin="2" VerticalAlignment="Center"
+                      Controls:TextBoxHelper.ClearTextButton="True"
+                      Controls:TextBoxHelper.Watermark="Please select an item..."
+                      ItemsSource="{Binding Applications}"
+                      IsDropDownOpen ="{Binding ApplicationIsDropDownOpen}"
+                      SelectedValue="{Binding PageAppLog.Application, Mode=TwoWay}" />
             <TextBlock Margin="2" VerticalAlignment="Center" Text="标签" />
-            <control:MultiSelectComboBox Width="100" Height="30" 
-                                         ItemsSource="{Binding Appications}" SelectedItems="{Binding SelectedItems}"/>
+            <ComboBox Width="120" Margin="2" VerticalAlignment="Center"
+                      Controls:TextBoxHelper.ClearTextButton="True"
+                      Controls:TextBoxHelper.Watermark="Please select an item..."
+                      ItemsSource="{Binding Tags}"
+                      IsDropDownOpen ="{Binding TagIsDropDownOpen}"
+                      SelectedValue="{Binding PageAppLog.Tags, Mode=TwoWay, Converter={StaticResource Tags2StringConverter}}" />
             <Button Width="60" Margin="2" Content="查  询" FontSize="12" Command="{Binding OnQueryCommand}"/>
         </StackPanel>
 
@@ -74,7 +106,7 @@
         <Grid Name="gridMain" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="380"/>
             </Grid.ColumnDefinitions>
             <datagrids:MultiDataGrid x:Name="AzureDataGrid"
                           Grid.Column="0"
@@ -88,18 +120,35 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding CTime}" Header="时间" />
                     <DataGridTextColumn Binding="{Binding Application}" Header="应用" />
-                    <DataGridTextColumn Binding="{Binding AppPath}" Header="路径" />
+                    <DataGridTextColumn Binding="{Binding AppPath}" Header="路径" Width="400"/>
                     <DataGridTextColumn Binding="{Binding IPv4}" Header="IP" />
                     <DataGridTextColumn Binding="{Binding Machine}" Header="机器名" />
                     <DataGridTextColumn Binding="{Binding LogCategory}" Header="日志类别" />
                     <DataGridTextColumn Binding="{Binding Level}" Header="级别" />
-                    <DataGridTextColumn Binding="{Binding Message}" Header="日志消息内容" Width="400" />
+                    <DataGridTextColumn Binding="{Binding Message}" Header="日志消息内容" Width="300" />
                 </DataGrid.Columns>
             </datagrids:MultiDataGrid>
             <GridSplitter Width="5"></GridSplitter>
-            <control:LineNumTextEditor Grid.Column="1" VerticalScrollBarVisibility="Visible" 
-                                   IsReadOnly="True" WordWrap="True" ShowLineNumbers="True" 
-                                   LineNumText="{Binding Messages, Mode=TwoWay}" />
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" >
+                    <Button Width="32" Height="32" Margin="4" Command="{Binding OnMessageSortDescCommand}"
+                        Style="{StaticResource AccentCircleButtonStyle}" ToolTip="降序排列">
+                        <iconPacks:FontAwesome Width="20" Height="20" Kind="AngleDoubleDownSolid" />
+                    </Button>
+                    <Button Width="32" Height="32" Margin="4" Command="{Binding OnMessageSortAscCommand}"
+                        Style="{StaticResource AccentCircleButtonStyle}" ToolTip="升序排列">
+                        <iconPacks:FontAwesome Width="20" Height="20" Kind="AngleDoubleUpSolid" />
+                    </Button>
+                </StackPanel>
+                <control:LineNumTextEditor  Grid.Row="1" VerticalScrollBarVisibility="Visible"
+                                       IsReadOnly="True" WordWrap="True" ShowLineNumbers="True" 
+                                       LineNumText="{Binding Messages, Mode=TwoWay}" />
+            </Grid>
+                
         </Grid>
     </Grid>
 </UserControl>

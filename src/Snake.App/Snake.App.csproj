@@ -113,6 +113,7 @@
       <DependentUpon>MultiSelectComboBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Mvvm\ViewModelStatus.cs" />
+    <Compile Include="Module\Converter\Tags2StringConverter.cs" />
     <Compile Include="Module\Models\StatusUpdateMessage.cs" />
     <Compile Include="Module\Views\TrackLogQueryView.xaml.cs">
       <DependentUpon>TrackLogQueryView.xaml</DependentUpon>

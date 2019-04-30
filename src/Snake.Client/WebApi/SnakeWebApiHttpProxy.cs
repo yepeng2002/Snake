@@ -216,8 +216,7 @@ namespace Snake.Client.WebApi
         {
             return Task.Run(() => GetAppLogsPage<T>(appLog));
         }
-
-
+        
         public Tuple<bool, T> QueryApplicationOfAppLog<T>(QueryParamDto dto)
         {
             Dictionary<string, object> paramDic = dto.ToDictionary();
@@ -225,11 +224,21 @@ namespace Snake.Client.WebApi
             return DoPost<T>(SNAKE_WEBAPI_TRACKLOG_CONTROLLER, action, paramDic);
         }
 
+        public Task<Tuple<bool, T>> QueryApplicationOfAppLogAsync<T>(QueryParamDto dto)
+        {
+            return Task.Run(() => QueryApplicationOfAppLog<T>(dto));
+        }
+        
         public Tuple<bool, T> QueryTagsOfAppLog<T>(QueryParamDto dto)
         {
             Dictionary<string, object> paramDic = dto.ToDictionary();
             var action = "QueryTagsOfAppLog";
             return DoPost<T>(SNAKE_WEBAPI_TRACKLOG_CONTROLLER, action, paramDic);
+        }
+
+        public Task<Tuple<bool, T>> QueryTagsOfAppLogAsync<T>(QueryParamDto dto)
+        {
+            return Task.Run(() => QueryTagsOfAppLog<T>(dto));
         }
 
         #endregion

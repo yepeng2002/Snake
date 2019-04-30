@@ -24,6 +24,8 @@ namespace Snake.App.Module.ViewModels
             OnViewLoadedCommand = new DelegateCommand(OnViewLoadedCommandExecute);
             OnQueryCommand = new DelegateCommand(OnQueryCommandExecute);
             OnQueryNextPageCommand = new DelegateCommand(OnQueryNextPageCommandExecute);
+            OnMessageSortDescCommand = new DelegateCommand(OnMessageSortDescCommandExecute);
+            OnMessageSortAscCommand = new DelegateCommand(OnMessageSortAscCommandExecute);
 
             //
             LogCategorys = new ObservableCollection<string>() { "Debug", "Info", "Warn", "Error", "Fatal" };
@@ -65,7 +67,8 @@ namespace Snake.App.Module.ViewModels
         public ICommand OnViewLoadedCommand { get; private set; }
         public ICommand OnQueryCommand { get; private set; }
         public ICommand OnQueryNextPageCommand { get; private set; }
-
+        public ICommand OnMessageSortDescCommand { get; private set; }
+        public ICommand OnMessageSortAscCommand { get; private set; }
 
         private async void OnViewLoadedCommandExecute()
         {
@@ -120,6 +123,64 @@ namespace Snake.App.Module.ViewModels
                 Status = ViewModelStatus.Loaded;
             }
         }
+
+        private async void OnApplicationsDropDownOpenedCommandExecute()
+        {
+            var dto = new QueryParamDto() { StrParam = "" };
+            SnakeWebApiHttpProxy proxy = new SnakeWebApiHttpProxy();
+            var result = await proxy.QueryApplicationOfAppLogAsync<IList<string>>(dto);
+            if (result.Item1 && result.Item2 != null)
+            {
+                Applications = new ObservableCollection<string>(result.Item2);
+            }
+        }
+        
+        private async void OnTagIsDropDownOpenCommandExecute()
+        {
+            var dto = new QueryParamDto() { StrParam = "" };
+            SnakeWebApiHttpProxy proxy = new SnakeWebApiHttpProxy();
+            var result = await proxy.QueryTagsOfAppLogAsync<IList<string>>(dto);
+            if (result.Item1 && result.Item2 != null)
+            {
+                Tags = new ObservableCollection<string>(result.Item2);
+            }
+        }
+
+        /// <summary>
+        /// 异常消息文本逆序排列
+        /// </summary>
+        private void OnMessageSortDescCommandExecute()
+        {
+            if (SelectedApplogs != null && SelectedApplogs.Count > 0)
+            {
+                var list = new List<string>();
+                foreach (var item in SelectedApplogs)
+                {
+                    list.Add((item as AppLog).Message);
+                }
+                Messages = string.Join("\r\n", list.ToArray());
+            }
+            else
+                Messages = string.Empty;
+        }
+        /// <summary>
+        /// 异常消息文本升序排列
+        /// </summary>
+        private void OnMessageSortAscCommandExecute()
+        {
+            if (SelectedApplogs != null && SelectedApplogs.Count > 0)
+            {
+                int count = SelectedApplogs.Count;
+                var list = new List<string>();
+                for (int i = SelectedApplogs.Count - 1; i >= 0; i--)
+                {
+                    list.Add((SelectedApplogs[i] as AppLog).Message);
+                }
+                Messages = string.Join("\r\n", list.ToArray());
+            }
+            else
+                Messages = string.Empty;
+        }
         #endregion
 
 
@@ -170,18 +231,18 @@ namespace Snake.App.Module.ViewModels
             }
         }
 
-        private ObservableCollection<string> _appications;
-        public ObservableCollection<string> Appications
+        private ObservableCollection<string> _applications;
+        public ObservableCollection<string> Applications
         {
-            get { return _appications; }
+            get { return _applications; }
             set
             {
-                if (value == _appications)
+                if (value == _applications)
                 {
                     return;
                 }
-                _appications = value;
-                RaisePropertyChanged(() => Appications);
+                _applications = value;
+                RaisePropertyChanged(() => Applications);
             }
         }
 
@@ -288,6 +349,40 @@ namespace Snake.App.Module.ViewModels
                 }
                 _messages = value;
                 RaisePropertyChanged(() => Messages);
+            }
+        }
+
+        private bool _applicationIsDropDownOpen;
+        public bool ApplicationIsDropDownOpen
+        {
+            get { return _applicationIsDropDownOpen; }
+            set
+            {
+                if (value == _applicationIsDropDownOpen)
+                {
+                    return;
+                }
+                _applicationIsDropDownOpen = value;
+                RaisePropertyChanged(() => ApplicationIsDropDownOpen);
+                if (_applicationIsDropDownOpen)
+                    OnApplicationsDropDownOpenedCommandExecute();
+            }
+        }
+
+        private bool _tagIsDropDownOpen;
+        public bool TagIsDropDownOpen
+        {
+            get { return _tagIsDropDownOpen; }
+            set
+            {
+                if (value == _tagIsDropDownOpen)
+                {
+                    return;
+                }
+                _tagIsDropDownOpen = value;
+                RaisePropertyChanged(() => TagIsDropDownOpen);
+                if (_tagIsDropDownOpen)
+                    OnTagIsDropDownOpenCommandExecute();
             }
         }
         #endregion

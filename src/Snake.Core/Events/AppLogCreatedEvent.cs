@@ -17,11 +17,11 @@ namespace Snake.Core.Events
     {
         public string Guid { get; set; }
 
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         private DateTime _cTime;
         /// <summary>
         /// 日志生成时间
         /// </summary>
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CTime
         {
             get { return _cTime; }

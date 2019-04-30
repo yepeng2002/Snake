@@ -112,7 +112,22 @@
     <add key="SnakeServerApi" value="http://localhost:50424" />
   </appSettings>
 ```
-
+8. 应用日志发送，引用Snake.Client.dll和Snake.Core.dll动态库，并增加配置，如下：
+  * 配置文件中增加配置如下：  
+```
+  <appSettings>
+    <!--SnakeApi服务 验签-->
+    <add key="SnakeApi" value="SNAKE_API" />
+    <add key="SnakeApiSecret" value="1!2@3#4$5" />
+    <!--Snake.Api服务 接口地址-->
+    <add key="SnakeServerApi" value="http://localhost:50424" />
+  </appSettings>
+```
+  * 应用日志示例代码：  
+```
+	LogProxy.Error(string.Format("{0}_{1}", "Exception : ", index), "Snake.DemoConsole", new Random().Next(1,5), new List<string>() { "Block", "Red" });
+	LogProxy.Debug(string.Format("{0}_{1}", "Debug : ", index), "Snake.DemoConsole", tags: new List<string>() { "Blue", "Red" });
+```
 ### Snake.App界面
 
 <img src="https://github.com/yepeng2002/Snake/blob/master/resource/images/SnakeAppLog.png" alt="应用日志分析" />

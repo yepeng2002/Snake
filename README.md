@@ -18,6 +18,10 @@
   * [Mongodb 3.2.1](https://www.mongodb.com)  
   * [redis-2.4.5](https://redis.io/)
   
+### Snake架构
+
+<img src="https://github.com/yepeng2002/Snake/blob/master/resource/images/SnakeLogic.png" alt="架构" />
+
 ### Quick Started
 
 1. Snake.Api项目是webapi项目，编译并发布Snake.Api到IIS站点，修改配置文件web.config，如下：

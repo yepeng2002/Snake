@@ -1,14 +1,13 @@
 ### Abstract
 
-  怎么知道web api被调用的频率了？  
-  如何分析各时段web api各接口方法的调用次数？  
-  如何获取web api接口方法的调用失败频次？  
-  如何分析web api接口方法耗时异常？  
+  如何分析web api被调用的频率？  
+  如何分析web api接口方法耗时？
+  如何分析分布式应用日志？
 
-  Snake是基于C#开发的实时api监控平台，包括api压力监控和调用异常监控。  
+  Snake是基于C#开发的应用程序日志采集平台和实时api监控平台，包括api压力监控和调用监控。  
   是基于RESTFul api风格开发的.net web api微服务应用集群，实时的接口调用监控为系统开发者提供了有利的分析数据。  
   Snake是为此而生的安静而平顺监控系统，它通过Filter实现监控嵌入，异步发送监控日志消息，通过基于RabbitMQ  
-  实现的企业服务总线平顺处理消息，最终将监控日志数据输入存储到Mongodb中。  
+  实现的消息总线平顺处理消息，最终将监控日志数据输入存储到Mongodb中。  
 
 ### Requirements
 
@@ -17,6 +16,7 @@
   * .NET Framework 4.6  
   * [RabbitMQ 3.6.5](http://www.rabbitmq.com)  
   * [Mongodb 3.2.1](https://www.mongodb.com)  
+  * [redis-2.4.5](https://redis.io/)
   
 ### Quick Started
 
@@ -63,7 +63,7 @@
   * 执行start.bat批处理脚本，安装或更新windows服务  
 3. 安装RabbitMQ，根据上述1和2的配置设置用户密码和VirtualHost  
 4. 安装Mongodb，根据上述2的配置设置用户密码和数据库，执行script目录下的MongoScript.js脚本  
-5. 在需要监控的webapi项目中引用Snake.Client.dll和Snake.Core.dll动态库，并增加配置：  
+5. 在需要监控的webapi项目（项目Snake.DemoApi中有使用示例代码）中引用Snake.Client.dll和Snake.Core.dll动态库，并增加配置：  
   * 在App_Start下WebApiConfig.cs文件中增加一行代码如下：  
   ```
 	public static void Register(HttpConfiguration config)
@@ -85,6 +85,12 @@
 		<add key="SnakeServerApi" value="http://localhost:50424" />
 	</appSettings>
 ```
+6. 安装Redis
+7. Snake.App项目是日志分析应用的客户端程序
+
+### Snake.App界面
+
+<img src="https://github.com/yepeng2002/Snake/blob/master/resource/images/SnakeAppLog.png" alt="应用日志分析" />
 
 ### Copyright and license
 

@@ -24,7 +24,7 @@
 
 ### Quick Started
 
-1. Snake.Api项目是webapi项目，编译并发布Snake.Api到IIS站点，修改配置文件web.config，如下：
+1. Snake.Api项目是webapi项目，负责发送日志请求的响应和查询日志接口，作为生产者将日志发布到消息队列，作为查询接口从Mongodb提取日志数据，编译并发布Snake.Api到IIS站点，修改配置文件web.config，如下：
   * RabbitMQ配置
 ```
 	<!--************************* RabbitMQ Connection Settings ****************** -->
@@ -49,7 +49,7 @@
   <RedisConfig WriteServerList="123456@127.0.0.1:6379" ReadServerList="123456@127.0.0.1:6379" MaxWritePoolSize="60" MaxReadPoolSize="60" AutoStart="true" DefaultDb="3" LocalCacheTime="180" RecordeLog="false">
   </RedisConfig>
 ```
-2. Snake.ApiTrackService项目是windows服务，编译Snake.ApiTrackService项目
+2. Snake.ApiTrackService项目是windows服务，是消息的消费者，并将消费的消息存入MongoDB，同时解析应用和标签存入缓存服务Redis供Snake.Api提取Applications和tags给Snake.App客户端选择，编译Snake.ApiTrackService项目
   * 修改配置文件App.config配置项，如下：
 ```
 	<appSettings>
@@ -101,7 +101,7 @@
 	</appSettings>
 ```
 6. 安装Redis
-7. Snake.App项目是日志分析应用的客户端程序
+7. Snake.App项目是日志分析应用的客户端程序，支持分页加载日志数据，支持日志合并
   * App.config配置文件中增加配置如下：  
 ```
   <appSettings>

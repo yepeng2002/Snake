@@ -113,7 +113,7 @@
   </appSettings>
 ```
 8. 应用日志发送，引用Snake.Client.dll和Snake.Core.dll动态库，并增加配置，如下：
-  * 配置文件中增加配置如下：  
+  * 示例项目Snake.DemoConsole配置文件中增加配置如下：  
 ```
   <appSettings>
     <!--SnakeApi服务 验签-->

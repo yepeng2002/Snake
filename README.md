@@ -1,8 +1,8 @@
 ### Abstract
 
   如何分析web api被调用的频率？  
-  如何分析web api接口方法耗时？
-  如何分析分布式应用日志？
+  如何分析web api接口方法耗时？  
+  如何分析分布式应用日志？  
 
   Snake是基于C#开发的应用程序日志采集平台和实时api监控平台，包括api压力监控和调用监控。  
   是基于RESTFul api风格开发的.net web api微服务应用集群，实时的接口调用监控为系统开发者提供了有利的分析数据。  
@@ -21,6 +21,7 @@
 ### Quick Started
 
 1. Snake.Api项目是webapi项目，编译并发布Snake.Api到IIS站点，修改配置文件web.config，如下：
+  * RabbitMQ配置
 ```
 	<!--************************* RabbitMQ Connection Settings ****************** -->
 	<RabbitMQ.Connection>
@@ -33,6 +34,16 @@
 		<!--重试次数-->
 		<add key="RabbitMQ.UseRetryNum" value="3" />
 	</RabbitMQ.Connection>
+```
+  * Mongo配置
+```
+    <add key="MongoConnectionString" value="mongodb://snake:snake@localhost:27017/SnakeDbTest/?MaximumPoolSize=500;socketTimeoutMS=2000;MinimumPoolSize=1;waitQueueTimeoutMS=300;waitQueueMultiple=10;ConnectionLifetime=30000;ConnectTimeout=30000;Pooled=true" />
+```
+  * Redis配置
+```
+  <!--Redis配置参数,格式：password@IP:port-->
+  <RedisConfig WriteServerList="123456@127.0.0.1:6379" ReadServerList="123456@127.0.0.1:6379" MaxWritePoolSize="60" MaxReadPoolSize="60" AutoStart="true" DefaultDb="3" LocalCacheTime="180" RecordeLog="false">
+  </RedisConfig>
 ```
 2. Snake.ApiTrackService项目是windows服务，编译Snake.ApiTrackService项目
   * 修改配置文件App.config配置项，如下：

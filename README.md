@@ -98,6 +98,16 @@
 ```
 6. 安装Redis
 7. Snake.App项目是日志分析应用的客户端程序
+  * App.config配置文件中增加配置如下：  
+```
+  <appSettings>
+    <!--SnakeApi服务 验签-->
+    <add key="SnakeApi" value="SNAKE_API" />
+    <add key="SnakeApiSecret" value="1!2@3#4$5" />
+    <!--Snake.Api服务 接口地址-->
+    <add key="SnakeServerApi" value="http://localhost:50424" />
+  </appSettings>
+```
 
 ### Snake.App界面
 

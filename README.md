@@ -125,8 +125,8 @@
 ```
   * 应用日志示例代码：  
 ```
-	LogProxy.Error(string.Format("{0}_{1}", "Exception : ", index), "Snake.DemoConsole", new Random().Next(1,5), new List<string>() { "Block", "Red" });
-	LogProxy.Debug(string.Format("{0}_{1}", "Debug : ", index), "Snake.DemoConsole", tags: new List<string>() { "Blue", "Red" });
+	LogProxy.Error("Exception : ", "Snake.DemoConsole", 4, new List<string>() { "Block", "Red" });
+	LogProxy.Debug("Debug : ", "Snake.DemoConsole", tags: new List<string>() { "Blue", "Red" });
 ```
 ### Snake.App界面
 

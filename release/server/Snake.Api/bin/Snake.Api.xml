@@ -489,7 +489,7 @@
         </member>
         <member name="T:Snake.Api.Controllers.TrackLogController">
             <summary>
-            日志管理
+            日志管理控制器
             </summary>
         </member>
         <member name="M:Snake.Api.Controllers.TrackLogController.PublishTrackLog(Snake.Core.Events.TrackLogCreatedEvent)">
@@ -511,6 +511,20 @@
             查询日志带分页
             </summary>
             <param name="pageAppLog">带分页的日志请求</param>
+            <returns></returns>
+        </member>
+        <member name="M:Snake.Api.Controllers.TrackLogController.QueryApplicationOfAppLog(Snake.Core.Models.QueryParamDto)">
+            <summary>
+            模糊查找Application名称序列
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snake.Api.Controllers.TrackLogController.QueryTagsOfAppLog(Snake.Core.Models.QueryParamDto)">
+            <summary>
+            模糊查找Tag名称序列
+            </summary>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="T:Snake.Api.Services.LogService">

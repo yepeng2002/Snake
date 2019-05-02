@@ -144,7 +144,7 @@
                         <iconPacks:FontAwesome Width="20" Height="20" Kind="AngleDoubleUpSolid" />
                     </Button>
                 </StackPanel>
-                <control:LineNumTextEditor  Grid.Row="1" VerticalScrollBarVisibility="Visible"
+                <control:LineNumTextEditor  Grid.Row="1" VerticalScrollBarVisibility="Visible" Foreground="Blue"
                                        IsReadOnly="True" WordWrap="True" ShowLineNumbers="True" 
                                        LineNumText="{Binding Messages, Mode=TwoWay}" />
             </Grid>

@@ -6,6 +6,7 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:SnakeViews="clr-namespace:Snake.App.Module.Views"
              xmlns:SnakeViewModels="clr-namespace:Snake.App.Module.ViewModels"
              d:DataContext="{d:DesignInstance SnakeViewModels:AppLogViewModel}"
@@ -37,9 +38,11 @@
         </ResourceDictionary>        
     </UserControl.Resources>
 
-    <dxmvvm:Interaction.Triggers>
-        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding OnViewLoadedCommand}" />
-    </dxmvvm:Interaction.Triggers>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OnViewLoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     
     <Grid>
         <Grid.RowDefinitions>

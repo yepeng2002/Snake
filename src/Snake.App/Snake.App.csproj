@@ -47,15 +47,6 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v13.1">
-      <HintPath>..\..\packages\Mvvm\DevExpress.Data.v13.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Core.v13.1">
-      <HintPath>..\..\packages\Mvvm\DevExpress.Xpf.Core.v13.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Mvvm.v13.1">
-      <HintPath>..\..\packages\Mvvm\DevExpress.Xpf.Mvvm.v13.1.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\..\packages\ICSharpCode\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
@@ -112,6 +103,11 @@
     <Compile Include="Controls\MultiSelectComboBox.xaml.cs">
       <DependentUpon>MultiSelectComboBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Mvvm\BaseNotifyPropertyChanged.cs" />
+    <Compile Include="Controls\Mvvm\IMessenger.cs" />
+    <Compile Include="Controls\Mvvm\Messenger.cs" />
+    <Compile Include="Controls\Mvvm\MessengerExtensions.cs" />
+    <Compile Include="Controls\Mvvm\DelegateCommand.cs" />
     <Compile Include="Controls\Mvvm\ViewModelStatus.cs" />
     <Compile Include="Module\Converter\Tags2StringConverter.cs" />
     <Compile Include="Module\Models\StatusUpdateMessage.cs" />

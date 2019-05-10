@@ -1,16 +1,9 @@
-﻿using DevExpress.Xpf.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Snake.App.Controls.Mvvm
+﻿namespace Snake.App.Controls.Mvvm
 {
     /// <summary>
     /// ViewModel基类
     /// </summary>
-    public class ViewModelBase : BindableBase
+    public class ViewModelBase : BaseNotifyPropertyChanged
     {
         #region 属性
 
@@ -21,14 +14,14 @@ namespace Snake.App.Controls.Mvvm
         public ViewModelStatus Status
         {
             get { return _status; }
-            set { SetProperty(ref _status, value, () => Status); }
+            set { this._status = value; base.OnPropertyChanged(() => this.Status); }
         }
 
         private bool _isEnable = true;
         public bool IsEnable
         {
             get { return _isEnable; }
-            set { SetProperty(ref _isEnable, value, () => IsEnable); }
+            set { this._isEnable = value; base.OnPropertyChanged(() => this.IsEnable); }
         }
 
         private bool _isFirstLoad = true;
@@ -38,7 +31,7 @@ namespace Snake.App.Controls.Mvvm
         public bool IsFirstLoad
         {
             get { return _isFirstLoad; }
-            set { SetProperty(ref _isFirstLoad, value, () => IsFirstLoad); }
+            set { this._isFirstLoad = value; base.OnPropertyChanged(() => this.IsFirstLoad); }
         }
 
         #endregion
@@ -50,21 +43,21 @@ namespace Snake.App.Controls.Mvvm
         public int ProgressValue
         {
             get { return _progressVaule; }
-            set { SetProperty(ref _progressVaule, value, () => ProgressValue); }
+            set { this._progressVaule = value; base.OnPropertyChanged(() => this.ProgressValue); }
         }
 
         private int _progressMin = 0;
         public int ProgressMin
         {
             get { return _progressMin; }
-            set { SetProperty(ref _progressMin, value, () => ProgressMin); }
+            set { this._progressMin = value; base.OnPropertyChanged(() => this.ProgressMin); }
         }
 
         private int _progressMax = 20;
         public int ProgressMax
         {
             get { return _progressMax; }
-            set { SetProperty(ref _progressMax, value, () => ProgressMax); }
+            set { this._progressMax = value; base.OnPropertyChanged(() => this.ProgressMax); }
         }
 
         protected void ProgressStep(int step)

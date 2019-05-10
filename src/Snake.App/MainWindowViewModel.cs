@@ -17,7 +17,8 @@ using Snake.App.Module.Models;
 using System.Windows.Controls;
 using Snake.App.Utilities;
 using System.Threading;
-using DevExpress.Xpf.Mvvm;
+using Snake.App.Controls.Mvvm;
+using Messenger = Snake.App.Controls.Mvvm.Messenger;
 
 namespace Snake.App
 {
@@ -89,12 +90,14 @@ namespace Snake.App
             }
 
             //注册主界面事件
+            //DevExpress.Xpf.Mvvm.Messenger.Default.Register<StatusUpdateMessage>(this, OnStatusUpdateMessage);
             Messenger.Default.Register<StatusUpdateMessage>(this, OnStatusUpdateMessage);
         }
 
         public void Dispose()
         {
             HotkeyManager.Current.Remove("demo");
+            //DevExpress.Xpf.Mvvm.Messenger.Default.Unregister<StatusUpdateMessage>(this, OnStatusUpdateMessage);
             Messenger.Default.Unregister<StatusUpdateMessage>(this, OnStatusUpdateMessage);
         }
 

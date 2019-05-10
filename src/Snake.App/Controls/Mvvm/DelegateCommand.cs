@@ -55,19 +55,19 @@ namespace Snake.App.Controls.Mvvm
     /// <summary>
     /// 广播命令：基本ICommand实现接口，带参数
     /// </summary>
-    public class RelayCommand<T> : ICommand
+    public class DelegateCommand<T> : ICommand
     {
         public Action<T> ExecuteCommand { get; private set; }
 
         public Predicate<T> CanExecuteCommand { get; private set; }
 
-        public RelayCommand(Action<T> executeCommand, Predicate<T> canExecuteCommand)
+        public DelegateCommand(Action<T> executeCommand, Predicate<T> canExecuteCommand)
         {
             this.ExecuteCommand = executeCommand;
             this.CanExecuteCommand = canExecuteCommand;
         }
 
-        public RelayCommand(Action<T> executeCommand)
+        public DelegateCommand(Action<T> executeCommand)
             : this(executeCommand, null) { }
 
         /// <summary>

@@ -54,7 +54,6 @@ namespace Snake.App.Module.ViewModels
             else
                 AppLogs = null;
             string log = string.Format("AppLog数据：{0}条  查询用时：{1} ms.", AppLogs == null ? 0 : AppLogs.Count, stopWatch.Elapsed.TotalMilliseconds.ToString("0."));
-            //DevExpress.Xpf.Mvvm.Messenger.Default.Send(new StatusUpdateMessage(log));
             Messenger.Default.Send(new StatusUpdateMessage(log));
         }
 
@@ -117,7 +116,6 @@ namespace Snake.App.Module.ViewModels
                     AppLogs = new ObservableCollection<AppLog>(list);
                 }
                 string log = string.Format("AppLog数据：{0}条  用时：{1} ms.", AppLogs == null ? 0 : AppLogs.Count, stopWatch.Elapsed.TotalMilliseconds.ToString("0."));
-                //DevExpress.Xpf.Mvvm.Messenger.Default.Send(new StatusUpdateMessage(log));
                 Messenger.Default.Send(new StatusUpdateMessage(log));
             }
             finally

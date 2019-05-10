@@ -69,12 +69,6 @@ namespace Snake.App
             }
         }
 
-        public bool ToggleFullScreen
-        {
-            get { return (bool)GetValue(ToggleFullScreenProperty); }
-            set { SetValue(ToggleFullScreenProperty, value); }
-        }
-
         public static readonly DependencyProperty UseAccentForDialogsProperty =
             DependencyProperty.Register("UseAccentForDialogs",
                                         typeof(bool),
@@ -91,12 +85,6 @@ namespace Snake.App
             }
         }
 
-        public bool UseAccentForDialogs
-        {
-            get { return (bool)GetValue(UseAccentForDialogsProperty); }
-            set { SetValue(UseAccentForDialogsProperty, value); }
-        }
-
         private void LaunchMahAppsOnGitHub(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/yepeng2002/Snake");
@@ -107,15 +95,6 @@ namespace Snake.App
             System.Diagnostics.Process.Start("https://github.com/MahApps/MahApps.Metro");
         }
 
-
-        private async void CloseCustomDialog(object sender, RoutedEventArgs e)
-        {
-            var dialog = (BaseMetroDialog)this.Resources["CustomCloseDialogTest"];
-
-            await this.HideMetroDialogAsync(dialog);
-            await this.ShowMessageAsync("Dialog gone", "The custom dialog has closed");
-        }
-
         private async void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (e.Cancel)
@@ -123,7 +102,7 @@ namespace Snake.App
                 return;
             }
 
-            e.Cancel = !_shutdown && _viewModel.QuitConfirmationEnabled;
+            e.Cancel = !_shutdown && true;
             if (!e.Cancel)
             {
                 return;

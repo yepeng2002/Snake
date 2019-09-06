@@ -65,6 +65,9 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.1.1345, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MaterialDesignThemes.2.5.1\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NHotkey, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NHotkey.1.2.1\lib\net20\NHotkey.dll</HintPath>
     </Reference>
@@ -111,6 +114,9 @@
     <Compile Include="Controls\Mvvm\ViewModelStatus.cs" />
     <Compile Include="Module\Converter\Tags2StringConverter.cs" />
     <Compile Include="Module\Models\StatusUpdateMessage.cs" />
+    <Compile Include="Module\Views\JsonParserView.xaml.cs">
+      <DependentUpon>JsonParserView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Module\Views\TrackLogQueryView.xaml.cs">
       <DependentUpon>TrackLogQueryView.xaml</DependentUpon>
     </Compile>
@@ -136,6 +142,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Module\Views\AppLogQueryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Module\Views\JsonParserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

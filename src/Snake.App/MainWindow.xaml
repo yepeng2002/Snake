@@ -269,6 +269,11 @@
                                 <SnakeViews:TrackLogQueryView />
                             </Controls:HamburgerMenuIconItem.Tag>
                         </Controls:HamburgerMenuIconItem>
+                        <Controls:HamburgerMenuIconItem Icon="{iconPacks:SimpleIcons Kind=CodeSchool}" Label="Json分析工具">
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <SnakeViews:JsonParserView />
+                            </Controls:HamburgerMenuIconItem.Tag>
+                        </Controls:HamburgerMenuIconItem>
                     </Controls:HamburgerMenuItemCollection>
                 </Controls:HamburgerMenu.ItemsSource>
 

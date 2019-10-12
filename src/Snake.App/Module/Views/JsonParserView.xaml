@@ -46,7 +46,7 @@
             </GroupBox>
             <GroupBox Header="节点数据表格" Grid.Row="1">
                 <datagrids:MultiDataGrid x:Name="dynamicDataGrid"  Margin="5" AutoGenerateColumns="True"
-                          RowHeaderWidth="0" IsReadOnly="True" Style="{DynamicResource AzureDataGrid}">
+                          RowHeaderWidth="40" HeadersVisibility="All" IsReadOnly="True" Style="{DynamicResource AzureDataGrid}" LoadingRow="dynamicDataGrid_LoadingRow">
                 </datagrids:MultiDataGrid>
             </GroupBox>
         </Grid>

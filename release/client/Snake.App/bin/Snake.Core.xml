@@ -555,7 +555,7 @@
             <param name="strYear"></param>
             <param name="WeekNumber"></param>
         </member>
-        <!-- 对于成员“T:Snake.Core.Util.EncryptHelper”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:Snake.Core.Util.EncryptHelper" -->
         <member name="M:Snake.Core.Util.EncryptHelper.PoylinkMD5Str(System.String)">
             <summary>
             PoyLink系统MD5加密方法

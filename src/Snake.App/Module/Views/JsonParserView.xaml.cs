@@ -40,132 +40,48 @@ namespace Snake.App.Module.Views
         {
             treeView.Items.Clear();
 
-
-            if (IsJOjbect(strJson))
+            try
             {
-                JObject jo = (JObject)JsonConvert.DeserializeObject(strJson);
+                if (IsJOjbect(strJson))
+                {
+                    JObject jo = (JObject)JsonConvert.DeserializeObject(strJson);
 
-                foreach (var item in jo)
-                {
-                    TreeViewItem tree;
-                    if (item.Value.GetType() == typeof(JObject))
+                    foreach (var item in jo)
                     {
-                        tree = new TreeViewItem();
-                        tree.Header = item.Key;
-                        AddTreeChildNode(ref tree, item.Value.ToString());
-                        treeView.Items.Add(tree);
-                    }
-                    else if (item.Value.GetType() == typeof(JArray))
-                    {
-                        tree = new TreeViewItem();
-                        tree.Header = item.Key;
-                        tree.IsExpanded = true;
-                        AddTreeChildNode(ref tree, item.Value.ToString());
-                        treeView.Items.Add(tree);
-                    }
-                    else
-                    {
-                        tree = new TreeViewItem();
-                        tree.Header = item.Key + ":" + item.Value.ToString();
-                        treeView.Items.Add(tree);
-                    }
-                }
-            }
-            if (IsJArray(strJson))
-            {
-                JArray ja = (JArray)JsonConvert.DeserializeObject(strJson);
-                int i = 0;
-                foreach (JObject item in ja)
-                {
-                    TreeViewItem tree = new TreeViewItem();
-                    tree.Header = string.Format("({0})", i);
-                    tree.IsExpanded = true;
-                    foreach (var itemOb in item)
-                    {
-                        TreeViewItem treeOb;
-                        if (itemOb.Value.GetType() == typeof(JObject))
+                        TreeViewItem tree;
+                        if (item.Value.GetType() == typeof(JObject))
                         {
-                            treeOb = new TreeViewItem();
-                            treeOb.Header = itemOb.Key;
-                            AddTreeChildNode(ref treeOb, itemOb.Value.ToString());
-                            tree.Items.Add(treeOb);
-
+                            tree = new TreeViewItem();
+                            tree.Header = item.Key;
+                            AddTreeChildNode(ref tree, item.Value.ToString());
+                            treeView.Items.Add(tree);
                         }
-                        else if (itemOb.Value.GetType() == typeof(JArray))
+                        else if (item.Value.GetType() == typeof(JArray))
                         {
-                            treeOb = new TreeViewItem();
-                            treeOb.Header = itemOb.Key;
-                            treeOb.IsExpanded = true;
-                            AddTreeChildNode(ref treeOb, itemOb.Value.ToString());
-                            tree.Items.Add(treeOb);
+                            tree = new TreeViewItem();
+                            tree.Header = item.Key;
+                            tree.IsExpanded = true;
+                            AddTreeChildNode(ref tree, item.Value.ToString());
+                            treeView.Items.Add(tree);
                         }
                         else
                         {
-                            treeOb = new TreeViewItem();
-                            treeOb.Header = itemOb.Key + ":" + itemOb.Value.ToString();
-                            tree.Items.Add(treeOb);
+                            tree = new TreeViewItem();
+                            tree.Header = item.Key + ":" + item.Value.ToString();
+                            treeView.Items.Add(tree);
                         }
                     }
-                    treeView.Items.Add(tree);
-                    i++;
                 }
-            }
-        }
-
-        /// <summary>
-        /// 添加子节点
-        /// </summary>
-        /// <param name="parantNode"></param>
-        /// <param name="value"></param>
-        public void AddTreeChildNode(ref TreeViewItem parantNode, string value)
-        {
-            if (IsJOjbect(value))
-            {
-                JObject jo = (JObject)JsonConvert.DeserializeObject(value);
-                foreach (var item in jo)
+                if (IsJArray(strJson))
                 {
-                    TreeViewItem tree;
-                    if (item.Value.GetType() == typeof(JObject))
-                    {
-                        tree = new TreeViewItem();
-                        tree.Header = item.Key;
-                        AddTreeChildNode(ref tree, item.Value.ToString());
-                        parantNode.Items.Add(tree);
-                    }
-                    else if (item.Value.GetType() == typeof(JArray))
-                    {
-                        tree = new TreeViewItem();
-                        tree.Header = item.Key;
-                        tree.IsExpanded = true;
-                        AddTreeChildNode(ref tree, item.Value.ToString());
-                        parantNode.Items.Add(tree);
-                    }
-                    else
-                    {
-                        tree = new TreeViewItem();
-                        tree.Header = item.Key + ":" + item.Value.ToString();
-                        parantNode.Items.Add(tree);
-                    }
-                }
-            }
-            if (IsJArray(value))
-            {
-                JArray ja = (JArray)JsonConvert.DeserializeObject(value);
-                parantNode.Tag = ja;
-                int i = 0;
-                foreach (var item in ja)
-                {
-                    if (item is JValue)
-                    {
-                        TreeViewItem tree = new TreeViewItem();
-                        tree.Header = (item as JValue).Value.ToString();
-                        parantNode.Items.Add(tree);
-                    }
-                    else
+                    JArray ja = (JArray)JsonConvert.DeserializeObject(strJson);
+                    int i = 0;
+                    foreach (JObject item in ja)
                     {
                         TreeViewItem tree = new TreeViewItem();
                         tree.Header = string.Format("({0})", i);
-                        foreach (var itemOb in (item as JObject))
+                        tree.IsExpanded = true;
+                        foreach (var itemOb in item)
                         {
                             TreeViewItem treeOb;
                             if (itemOb.Value.GetType() == typeof(JObject))
@@ -180,6 +96,7 @@ namespace Snake.App.Module.Views
                             {
                                 treeOb = new TreeViewItem();
                                 treeOb.Header = itemOb.Key;
+                                treeOb.IsExpanded = true;
                                 AddTreeChildNode(ref treeOb, itemOb.Value.ToString());
                                 tree.Items.Add(treeOb);
                             }
@@ -190,10 +107,107 @@ namespace Snake.App.Module.Views
                                 tree.Items.Add(treeOb);
                             }
                         }
-                        parantNode.Items.Add(tree);
+                        treeView.Items.Add(tree);
                         i++;
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        /// <summary>
+        /// 添加子节点
+        /// </summary>
+        /// <param name="parantNode"></param>
+        /// <param name="value"></param>
+        public void AddTreeChildNode(ref TreeViewItem parantNode, string value)
+        {
+            try
+            {
+                if (IsJArray(value))
+                {
+                    JArray ja = (JArray)JsonConvert.DeserializeObject(value);
+                    parantNode.Tag = ja;
+                    int i = 0;
+                    foreach (var item in ja)
+                    {
+                        if (item is JValue)
+                        {
+                            TreeViewItem tree = new TreeViewItem();
+                            tree.Header = (item as JValue).Value.ToString();
+                            parantNode.Items.Add(tree);
+                        }
+                        else
+                        {
+                            TreeViewItem tree = new TreeViewItem();
+                            tree.Header = string.Format("({0})", i);
+                            foreach (var itemOb in (item as JObject))
+                            {
+                                TreeViewItem treeOb;
+                                if (itemOb.Value.GetType() == typeof(JObject))
+                                {
+                                    treeOb = new TreeViewItem();
+                                    treeOb.Header = itemOb.Key;
+                                    AddTreeChildNode(ref treeOb, itemOb.Value.ToString());
+                                    tree.Items.Add(treeOb);
+
+                                }
+                                else if (itemOb.Value.GetType() == typeof(JArray))
+                                {
+                                    treeOb = new TreeViewItem();
+                                    treeOb.Header = itemOb.Key;
+                                    AddTreeChildNode(ref treeOb, itemOb.Value.ToString());
+                                    tree.Items.Add(treeOb);
+                                }
+                                else
+                                {
+                                    treeOb = new TreeViewItem();
+                                    treeOb.Header = itemOb.Key + ":" + itemOb.Value.ToString();
+                                    tree.Items.Add(treeOb);
+                                }
+                            }
+                            parantNode.Items.Add(tree);
+                            i++;
+                        }
+                    }
+                }
+                else if (IsJOjbect(value))
+                {
+                    JObject jo = (JObject)JsonConvert.DeserializeObject(value);
+                    foreach (var item in jo)
+                    {
+                        TreeViewItem tree;
+                        if (item.Value.GetType() == typeof(JObject))
+                        {
+                            tree = new TreeViewItem();
+                            tree.Header = item.Key;
+                            AddTreeChildNode(ref tree, item.Value.ToString());
+                            parantNode.Items.Add(tree);
+                        }
+                        else if (item.Value.GetType() == typeof(JArray))
+                        {
+                            tree = new TreeViewItem();
+                            tree.Header = item.Key;
+                            tree.IsExpanded = true;
+                            AddTreeChildNode(ref tree, item.Value.ToString());
+                            parantNode.Items.Add(tree);
+                        }
+                        else
+                        {
+                            tree = new TreeViewItem();
+                            tree.Header = item.Key + ":" + item.Value.ToString();
+                            parantNode.Items.Add(tree);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 
@@ -206,7 +220,8 @@ namespace Snake.App.Module.Views
         {
             try
             {
-                JObject ja = JObject.Parse(value);
+                //JObject ja = JObject.Parse(value);
+                JObject jo = (JObject)JsonConvert.DeserializeObject(value);
                 return true;
             }
             catch (Exception ex)
@@ -223,7 +238,8 @@ namespace Snake.App.Module.Views
         {
             try
             {
-                JArray ja = JArray.Parse(value);
+                //JArray ja = JArray.Parse(value);
+                JArray ja = (JArray)JsonConvert.DeserializeObject(value);
                 return true;
             }
             catch (Exception ex)
@@ -233,7 +249,7 @@ namespace Snake.App.Module.Views
         }
 
         #endregion
-        
+
 
         private void btnLoad_Click(object sender, RoutedEventArgs e)
         {

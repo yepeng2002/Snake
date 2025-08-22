@@ -1,36 +1,36 @@
 ### Abstract
 
-  ��η���web api�����õ�Ƶ�ʣ�  
-  ��η���web api�ӿڷ�����ʱ��  
-  ��η����ֲ�ʽӦ����־��  
+  如何分析web api被调用的频率？  
+  如何分析web api接口方法耗时？  
+  如何分析分布式应用日志？  
 
-  Snake�ǻ���C#��������־���ģ�ʵ����Ӧ�ó�����־�ɼ�ƽ̨��ʵʱapi���ƽ̨������apiѹ����غ͵��ü�ء�  
-  �ǻ���RESTFul api��񿪷���.net web api����Ӧ�ü�Ⱥ��ʵʱ�Ľӿڵ��ü��Ϊϵͳ�������ṩ�������ķ������ݡ�  
-  Snake��Ϊ�˶����İ�����ƽ˳���ϵͳ����ͨ��Filterʵ�ּ��Ƕ�룬�첽���ͼ����־��Ϣ��ͨ������RabbitMQ  
-  ʵ�ֵ���Ϣ����ƽ˳������Ϣ�����ս������־��������洢��Mongodb�С�  
+  Snake是基于C#开发的日志中心，实现了应用程序日志采集平台和实时api监控平台，包括api压力监控和调用监控。  
+  是基于RESTFul api风格开发的.net web api服务应用集群，实时的接口调用监控为系统开发者提供了有利的分析数据。  
+  Snake是为此而生的安静而平顺监控系统，它通过Filter实现监控嵌入，异步发送监控日志消息，通过基于RabbitMQ  
+  实现的消息总线平顺处理消息，最终将监控日志数据输入存储到Mongodb中。  
 
-### ��
+### 序
 
-  Snake��־ƽ̨Ŀǰ�Ƴ���V1.0���ð汾ʵ������־�Ĳɼ����洢�ͷ������ɼ��˿�֧��web api����ͨ���������Զ��ɼ���Ӧ����������Ӧ����־����
-  �洢��ʵ������־�洢��Ӧ����־Ӧ�����ͱ�ǩ������������ʵ��Ӧ����־������ѯ����־��Ϣ�ϲ���������������api�����־�ķ����ͷ���ӿڵ���·�����ṹ������
+  Snake日志平台目前推出了V1.0，该版本实现了日志的采集，存储和分析，采集端可支持web api服务通过过滤器自动采集和应用主动发送应用日志请求，
+  存储端实现了日志存储和应用日志应用名和标签解析，分析端实现应用日志条件查询和日志消息合并，后续还需完善api监控日志的分析和服务接口调用路径树结构解析。
 
 ### Requirements
 
-  * Windows 7 ��Windows Server 2008���ϲ���ϵͳ  
+  * Windows 7 、Windows Server 2008以上操作系统  
   * IIS 8.5 +  
   * .NET Framework 4.6  
   * [RabbitMQ 3.6.5](http://www.rabbitmq.com)  
   * [Mongodb 3.2.1](https://www.mongodb.com)  
   * [redis-2.4.5](https://redis.io/)
   
-### Snake�ܹ�
+### Snake架构
 
-<img src="https://github.com/yepeng2002/Snake/blob/master/resource/images/SnakeLogic.png" alt="�ܹ�" />
+<img src="https://github.com/yepeng2002/Snake/blob/master/resource/images/SnakeLogic.png" alt="架构" />
 
 ### Quick Started
 
-1. Snake.Api��Ŀ��webapi��Ŀ����������־�������Ӧ�Ͳ�ѯ��־�ӿڣ���Ϊ�����߽���־��������Ϣ���У���Ϊ��ѯ�ӿڴ�Mongodb��ȡ��־���ݣ����벢����Snake.Api��IISվ�㣬�޸������ļ�web.config�����£�
-  * RabbitMQ����
+1. Snake.Api项目是webapi项目，负责发送日志请求的响应和查询日志接口，作为生产者将日志发布到消息队列，作为查询接口从Mongodb提取日志数据，编译并发布Snake.Api到IIS站点，修改配置文件web.config，如下：
+  * RabbitMQ配置
 ```
 	<!--************************* RabbitMQ Connection Settings ****************** -->
 	<RabbitMQ.Connection>
@@ -40,22 +40,22 @@
 		<add key="RabbitMQ.Password" value="snake" />
 		<add key="RabbitMQ.VirtualHost" value="snakeTest" />
 		<add key="RabbitMQ.QueueName" value="q_snake_apitrack" />
-		<!--���Դ���-->
+		<!--重试次数-->
 		<add key="RabbitMQ.UseRetryNum" value="3" />
 	</RabbitMQ.Connection>
 ```
-  * Mongo����
+  * Mongo配置
 ```
     <add key="MongoConnectionString" value="mongodb://snake:snake@localhost:27017/SnakeDbTest/?MaximumPoolSize=500;socketTimeoutMS=2000;MinimumPoolSize=1;waitQueueTimeoutMS=300;waitQueueMultiple=10;ConnectionLifetime=30000;ConnectTimeout=30000;Pooled=true" />
 ```
-  * Redis����
+  * Redis配置
 ```
-  <!--Redis���ò���,��ʽ��password@IP:port-->
+  <!--Redis配置参数,格式：password@IP:port-->
   <RedisConfig WriteServerList="123456@127.0.0.1:6379" ReadServerList="123456@127.0.0.1:6379" MaxWritePoolSize="60" MaxReadPoolSize="60" AutoStart="true" DefaultDb="3" LocalCacheTime="180" RecordeLog="false">
   </RedisConfig>
 ```
-2. Snake.ApiTrackService��Ŀ��windows��������Ϣ�������ߣ��������ѵ���Ϣ����MongoDB��ͬʱ����Ӧ�úͱ�ǩ���뻺�����Redis��Snake.Api��ȡApplications��tags��Snake.App�ͻ���ѡ�񣬱���Snake.ApiTrackService��Ŀ
-  * �޸������ļ�App.config��������£�
+2. Snake.ApiTrackService项目是windows服务，是消息的消费者，并将消费的消息存入MongoDB，同时解析应用和标签存入缓存服务Redis供Snake.Api提取Applications和tags给Snake.App客户端选择，编译Snake.ApiTrackService项目
+  * 修改配置文件App.config配置项，如下：
 ```
 	<appSettings>
 		<add key="MongoConnectionString" value="mongodb://snake:snake@localhost:27017/SnakeDbTest/?MaximumPoolSize=500;socketTimeoutMS=2000;MinimumPoolSize=1;waitQueueTimeoutMS=300;waitQueueMultiple=10;ConnectionLifetime=30000;ConnectTimeout=30000;Pooled=true" />
@@ -74,75 +74,72 @@
 		<add key="RabbitMQ.Password" value="snake" />
 		<add key="RabbitMQ.VirtualHost" value="snakeTest" />
 		<add key="RabbitMQ.QueueName" value="q_snake_apitrack" />
-		<!--`�����߸���-->
+		<!--`消费者个数-->
 		<add key="RabbitMQ.ConsumerNum" value="4" />
-		<!--���Դ���-->
+		<!--重试次数-->
 		<add key="RabbitMQ.UseRetryNum" value="3" />
 	</RabbitMQ.Connection>
 ```
-  * ִ��start.bat�������ű�����װ�����windows����  
-3. ��װRabbitMQ����������1��2�����������û������VirtualHost  
-4. ��װMongodb����������2�����������û���������ݿ⣬ִ��scriptĿ¼�µ�MongoScript.js�ű�  
-5. ����Ҫ��ص�webapi��Ŀ����ĿSnake.DemoApi����ʹ��ʾ�����룩������Snake.Client.dll��Snake.Core.dll��̬�⣬���������ã�  
-  * ��App_Start��WebApiConfig.cs�ļ�������һ�д������£�  
+  * 执行start.bat批处理脚本，安装或更新windows服务  
+3. 安装RabbitMQ，根据上述1和2的配置设置用户密码和VirtualHost  
+4. 安装Mongodb，根据上述2的配置设置用户密码和数据库，执行script目录下的MongoScript.js脚本  
+5. 在需要监控的webapi项目（项目Snake.DemoApi中有使用示例代码）中引用Snake.Client.dll和Snake.Core.dll动态库，并增加配置：  
+  * 在App_Start下WebApiConfig.cs文件中增加一行代码如下：  
   ```
 	public static void Register(HttpConfiguration config)
 	{
-            // Web API ���úͷ���
+            // Web API 配置和服务
             string filterEnabled = ConfigurationManager.AppSettings["TrackLogFilterEnabled"];
             if (!string.IsNullOrEmpty(filterEnabled) && filterEnabled.ToLower() == "true")
-                config.Filters.Add(new TrackLogActionFilterAttribute());  //apiִ���¼�������־
+                config.Filters.Add(new TrackLogActionFilterAttribute());  //api执行事件跟踪日志
   ```
-  * ��web.config�����ļ��������������£�  
+  * 在web.config配置文件中增加配置如下：  
 ```
 	<appSettings>
-		<!--TrackLog����������-->
+		<!--TrackLog过滤器开关-->
 		<add key="TrackLogFilterEnabled" value="true" />
-		<!--SnakeApi���� ��ǩ-->
+		<!--SnakeApi服务 验签-->
 		<add key="SnakeApi" value="SNAKE_API" />
 		<add key="SnakeApiSecret" value="1!2@3#4$5" />
-		<!--Snake.Api���� �ӿڵ�ַ-->
+		<!--Snake.Api服务 接口地址-->
 		<add key="SnakeServerApi" value="http://localhost:50424" />
 	</appSettings>
 ```
-6. ��װRedis
-7. Snake.App��Ŀ����־����Ӧ�õĿͻ��˳���֧�ַ�ҳ������־���ݣ�֧����־�ϲ�
-  * App.config�����ļ��������������£�  
+6. 安装Redis
+7. Snake.App项目是日志分析应用的客户端程序，支持分页加载日志数据，支持日志合并
+  * App.config配置文件中增加配置如下：  
 ```
   <appSettings>
-    <!--SnakeApi���� ��ǩ-->
+    <!--SnakeApi服务 验签-->
     <add key="SnakeApi" value="SNAKE_API" />
     <add key="SnakeApiSecret" value="1!2@3#4$5" />
-    <!--Snake.Api���� �ӿڵ�ַ-->
+    <!--Snake.Api服务 接口地址-->
     <add key="SnakeServerApi" value="http://localhost:50424" />
   </appSettings>
 ```
-8. Ӧ����־���ͣ�����Snake.Client.dll��Snake.Core.dll��̬�⣬���������ã����£�
-  * ʾ����ĿSnake.DemoConsole�����ļ��������������£�  
+8. 应用日志发送，引用Snake.Client.dll和Snake.Core.dll动态库，并增加配置，如下：
+  * 示例项目Snake.DemoConsole配置文件中增加配置如下：  
 ```
   <appSettings>
-    <!--SnakeApi���� ��ǩ-->
+    <!--SnakeApi服务 验签-->
     <add key="SnakeApi" value="SNAKE_API" />
     <add key="SnakeApiSecret" value="1!2@3#4$5" />
-    <!--Snake.Api���� �ӿڵ�ַ-->
+    <!--Snake.Api服务 接口地址-->
     <add key="SnakeServerApi" value="http://localhost:50424" />
   </appSettings>
 ```
-  * Ӧ����־ʾ�����룺  
+  * 应用日志示例代码：  
 ```
 	LogProxy.Error("Exception : ", "Snake.DemoConsole", 4, new List<string>() { "Block", "Red" });
 	LogProxy.Debug("Debug : ", "Snake.DemoConsole", tags: new List<string>() { "Blue", "Red" });
 ```
-### Snake.App����
+### Snake.App界面
 
-<img src="https://github.com/yepeng2002/Snake/blob/master/resource/images/SnakeAppLog.png" alt="Ӧ����־����" />
+<img src="https://github.com/yepeng2002/Snake/blob/master/resource/images/SnakeAppLog.png" alt="应用日志分析" />
 
 
 ### Copyright and license
 
-[Apache ����֤2.0��](http://www.apache.org/licenses/LICENSE-2.0.html)
+[Apache 许可证2.0版](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 ### AREAS FOR IMPROVEMENTS
-
-QQ: 46313060  
-Email: yepeng2002@sina.com

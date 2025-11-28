@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MassTransit.WindsorIntegration</name>
+    </assembly>
+    <members>
+        <member name="T:MassTransit.WindsorIntegration.WindsorCompensateActivityFactory`2">
+            <summary>
+            A factory to create an activity from Windsor, that manages the lifetime scope of the activity
+            </summary>
+            <typeparam name="TActivity"></typeparam>
+            <typeparam name="TLog"></typeparam>
+        </member>
+        <member name="T:MassTransit.WindsorIntegration.WindsorExecuteActivityFactory`2">
+            <summary>
+            A factory to create an activity from Windsor, that manages the lifetime scope of the activity
+            </summary>
+            <typeparam name="TActivity"></typeparam>
+            <typeparam name="TArguments"></typeparam>
+        </member>
+        <member name="T:MassTransit.WindsorIntegration.WindsorMessageScopeFilter`1">
+            <summary>
+            Calls by the inbound message pipeline to begin and end a message scope
+            in the container.
+            </summary>
+        </member>
+        <member name="T:MassTransit.WindsorContainerExtensions">
+            <summary>
+            Extension methods for the Windsor IoC container.
+            </summary>
+        </member>
+        <member name="M:MassTransit.WindsorContainerExtensions.LoadFrom(MassTransit.IReceiveEndpointConfigurator,Castle.Windsor.IWindsorContainer)">
+            <summary>
+            Specify that the service bus should load its subscribers from the container passed as an argument.
+            </summary>
+            <param name="configurator">The configurator the extension method works on.</param>
+            <param name="container">The Windsor container.</param>
+        </member>
+        <member name="M:MassTransit.WindsorContainerExtensions.LoadFrom(MassTransit.IReceiveEndpointConfigurator,Castle.MicroKernel.IKernel)">
+            <summary>
+            Specify that the service bus should load its subscribers from the container passed as an argument.
+            </summary>
+            <param name="configurator">The configurator the extension method works on.</param>
+            <param name="container">The Windsor container.</param>
+        </member>
+        <member name="M:MassTransit.WindsorContainerExtensions.Consumer``1(MassTransit.IReceiveEndpointConfigurator,Castle.MicroKernel.IKernel,System.Action{MassTransit.ConsumeConfigurators.IConsumerConfigurator{``0}})">
+            <summary>
+            Register the type as a type to load from the container as a consumer.
+            </summary>
+            <typeparam name="T">The type of the consumer that consumes messages</typeparam>
+            <param name="configurator">configurator</param>
+            <param name="container">The container that the consumer should be loaded from.</param>
+            <param name="configure"></param>
+            <returns>The configurator</returns>
+        </member>
+        <member name="M:MassTransit.WindsorContainerExtensions.Saga``1(MassTransit.IReceiveEndpointConfigurator,Castle.MicroKernel.IKernel,System.Action{MassTransit.Saga.SubscriptionConfigurators.ISagaConfigurator{``0}})">
+            <summary>
+            Load the saga of the generic type from the windsor container,
+            by loading it directly from the container.
+            </summary>
+            <typeparam name="T">The type of the saga</typeparam>
+            <param name="configurator">The configurator</param>
+            <param name="container">The windsor container</param>
+            <param name="configure"></param>
+            <returns>The configurator</returns>
+        </member>
+        <member name="M:MassTransit.WindsorContainerExtensions.EnableMessageScope``1(GreenPipes.IPipeConfigurator{``0})">
+            <summary>
+            Enables message scope lifetime for windsor containers
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="configurator"></param>
+        </member>
+        <member name="M:MassTransit.WindsorContainerExtensions.UseMessageScope``1(GreenPipes.IPipeConfigurator{``0})">
+            <summary>
+            Enables message scope lifetime for windsor containers
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="configurator"></param>
+        </member>
+    </members>
+</doc>

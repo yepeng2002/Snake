@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web.Http.Controllers;
@@ -15,6 +18,7 @@ namespace Snake.Api.Areas.HelpPage
     public class XmlDocumentationProvider : IDocumentationProvider, IModelDocumentationProvider
     {
         private XPathNavigator _documentNavigator;
+        private IList _documentNavigators = new List<XPathNavigator>();
         private const string TypeExpression = "/doc/members/member[@name='T:{0}']";
         private const string MethodExpression = "/doc/members/member[@name='M:{0}']";
         private const string PropertyExpression = "/doc/members/member[@name='P:{0}']";
@@ -31,8 +35,27 @@ namespace Snake.Api.Areas.HelpPage
             {
                 throw new ArgumentNullException("documentPath");
             }
-            XPathDocument xpath = new XPathDocument(documentPath);
-            _documentNavigator = xpath.CreateNavigator();
+            //XPathDocument xpath = new XPathDocument(documentPath);
+            //_documentNavigator = xpath.CreateNavigator();
+            var files = new[] { "Snake.Api.XML", "Snake.Core.XML" };
+            foreach (var file in files)
+            {
+                XPathDocument xpath = new XPathDocument(Path.Combine(documentPath, file));
+                _documentNavigators.Add(xpath.CreateNavigator());
+            }
+        }
+
+        private XPathNavigator SelectSingleNode(string selectExpression)
+        {
+            foreach (XPathNavigator navigator in _documentNavigators)
+            {
+                var propertyNode = navigator.SelectSingleNode(selectExpression);
+                if (propertyNode != null)
+                {
+                    return propertyNode;
+                }
+            }
+            return null;
         }
 
         public string GetDocumentation(HttpControllerDescriptor controllerDescriptor)
@@ -56,7 +79,7 @@ namespace Snake.Api.Areas.HelpPage
                 if (methodNode != null)
                 {
                     string parameterName = reflectedParameterDescriptor.ParameterInfo.Name;
-                    XPathNavigator parameterNode = methodNode.SelectSingleNode(String.Format(CultureInfo.InvariantCulture, ParameterExpression, parameterName));
+                    XPathNavigator parameterNode = SelectSingleNode(String.Format(CultureInfo.InvariantCulture, ParameterExpression, parameterName));
                     if (parameterNode != null)
                     {
                         return parameterNode.Value.Trim();
@@ -78,7 +101,7 @@ namespace Snake.Api.Areas.HelpPage
             string memberName = String.Format(CultureInfo.InvariantCulture, "{0}.{1}", GetTypeName(member.DeclaringType), member.Name);
             string expression = member.MemberType == MemberTypes.Field ? FieldExpression : PropertyExpression;
             string selectExpression = String.Format(CultureInfo.InvariantCulture, expression, memberName);
-            XPathNavigator propertyNode = _documentNavigator.SelectSingleNode(selectExpression);
+            XPathNavigator propertyNode = SelectSingleNode(selectExpression);
             return GetTagValue(propertyNode, "summary");
         }
 
@@ -94,7 +117,7 @@ namespace Snake.Api.Areas.HelpPage
             if (reflectedActionDescriptor != null)
             {
                 string selectExpression = String.Format(CultureInfo.InvariantCulture, MethodExpression, GetMemberName(reflectedActionDescriptor.MethodInfo));
-                return _documentNavigator.SelectSingleNode(selectExpression);
+                return SelectSingleNode(selectExpression);
             }
 
             return null;
@@ -131,7 +154,7 @@ namespace Snake.Api.Areas.HelpPage
         {
             string controllerTypeName = GetTypeName(type);
             string selectExpression = String.Format(CultureInfo.InvariantCulture, TypeExpression, controllerTypeName);
-            return _documentNavigator.SelectSingleNode(selectExpression);
+            return SelectSingleNode(selectExpression);
         }
 
         private static string GetTypeName(Type type)
